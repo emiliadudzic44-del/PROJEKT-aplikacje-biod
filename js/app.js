@@ -236,6 +236,21 @@ function getCounts() {
 function handleAddForm(e) {
     e.preventDefault();
 
+    const email = document.querySelector('#form-email').value.trim();
+    const msgEl = document.querySelector('#form-message');
+
+    const atIndex = email.indexOf('@');
+    const dotIndex = email.lastIndexOf('.');
+
+    if (atIndex < 1 || dotIndex <= atIndex + 1 || dotIndex === email.length - 1) {
+        msgEl.textContent = "Błąd: Wprowadź poprawny adres e-mail.";
+        msgEl.style.backgroundColor = "#fee2e2";
+        msgEl.style.color = "#991b1b";
+        msgEl.style.border = "1px solid #fca5a5";
+        msgEl.classList.remove('hidden');
+        return;
+    }
+
     const name = document.querySelector('#form-name').value.trim();
     const city = document.querySelector('#form-city').value.trim();
     const type = document.querySelector('#form-type').value;
@@ -247,9 +262,10 @@ function handleAddForm(e) {
     renderTable();
     updateDashboard();
 
-    const msgEl = document.querySelector('#form-message');
     msgEl.textContent = "Atrakcja została pomyślnie dodana!";
     msgEl.className = "message success";
+    msgEl.style = "";
+    msgEl.classList.remove('hidden');
 
     document.querySelector('#add-form').reset();
 }
