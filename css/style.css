@@ -1,3 +1,7 @@
+*, *::before, *::after {
+    cursor: default;
+}
+
 /* ustawienia podstawowe */
 * {
     box-sizing: border-box;
