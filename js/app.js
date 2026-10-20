@@ -213,7 +213,7 @@ function initChart() {
             labels: ['Zabytki', 'Natura', 'Rozrywka'],
             datasets: [{
                 data: [getCounts().zabytek, getCounts().natura, getCounts().rozrywka],
-                backgroundColor: ['#8B5A2B', '#2E8B57', '#FF8C00']
+                backgroundColor: ['#be3c33', '#18b62a', '#dbdb15'],
             }]
         },
         options: {
