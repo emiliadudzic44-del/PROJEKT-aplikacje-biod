@@ -44,6 +44,7 @@ body {
     font-weight: 600;
     font-size: 0.95rem;
     transition: color 0.2s ease;
+    white-space: nowrap;
 }
 
 .nav-links a:hover, .nav-links a.active {
