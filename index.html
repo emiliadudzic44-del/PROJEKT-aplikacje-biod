@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PodkarpacieData - Portal i Analiza Danych</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- NAWIGACJA GŁÓWNA -->
+    <header class="navbar">
+        <div class="logo">⛰️ PodkarpacieData</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#start" class="nav-btn active" data-target="start">Start</a></li>
+                <li><a href="#dane" class="nav-btn" data-target="start" data-scroll="dane">Dane</a></li>
+                <li><a href="#analiza" class="nav-btn" data-target="start" data-scroll="analiza">Analiza</a></li>
+                <li><a href="#plan" class="nav-btn" data-target="plan">Twój Plan</a></li>
+                <li><a href="#formularz" class="nav-btn" data-target="formularz">Formularz</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <!-- 1. GŁÓWNY WIDOK: START + DANE + ANALIZA -->
+        <div id="start" class="tab-content active">
+
+            <!-- SEKCJA HERO -->
+            <section class="hero-box">
+                <div class="hero-text">
+                    <h1>Atrakcje turystyczne w województwie podkarpackim</h1>
+                    <p>Interaktywny zbiór danych, filtrowanie, planowanie trasy jednodniowej oraz prosty dashboard. Wszystkie pomiary i wyliczenia wykonywane są na żywo w JavaScript.</p>
+                    <div class="hero-btns">
+                        <button class="btn btn-primary scroll-btn" data-scroll="dane">Przeglądaj dane ↓</button>
+                        <button class="btn btn-secondary scroll-btn" data-scroll="analiza">Zobacz analizę ↓</button>
+                    </div>
+                </div>
+
+                <!-- TRZY ZDJĘCIA POZIOMO KOŁO SIEBIE -->
+                <div class="hero-gallery">
+                    <figure>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg" alt="Zamek w Łańcucie">
+                        <figcaption>Zamek w Łańcucie</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg" alt="Bieszczady">
+                        <figcaption>Bieszczadzkie Szlaki</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg" alt="Kolejka Leśna w Majdanie">
+                        <figcaption>Kolejka Leśna w Majdanie</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <!-- KAFELKI SKRÓTÓW -->
+            <section class="nav-cards-grid">
+                <div class="nav-card scroll-btn" data-scroll="dane">
+                    <div class="card-icon">📊</div>
+                    <h3>Baza atrakcji</h3>
+                    <p>Przejdź niżej do pełnej bazy danych, filtrowania i sortowania na żywo.</p>
+                </div>
+                <div class="nav-card page-btn" data-target="plan">
+                    <div class="card-icon">🗺️</div>
+                    <h3>Twój Plan Wycieczki</h3>
+                    <p>Zobacz zestawienie wybranych obiektów i podsumowanie kosztu wstępów.</p>
+                </div>
+                <div class="nav-card page-btn" data-target="formularz">
+                    <div class="card-icon">📝</div>
+                    <h3>Formularz zgłoszeniowy</h3>
+                    <p>Otwórz osobny widok formularza, aby zgłosić nowy obiekt do bazy danych.</p>
+                </div>
+            </section>
+
+            <!-- SEKCJA DANE -->
+            <section id="dane" class="content-section">
+                <h2>Baza atrakcji turystycznych</h2>
+                <div class="filters">
+                    <input type="text" id="search-input" placeholder="Szukaj po nazwie lub mieście...">
+                    <select id="filter-type">
+                        <option value="all">Wszystkie kategorie</option>
+                        <option value="zabytek">Zabytki</option>
+                        <option value="natura">Natura</option>
+                        <option value="rozrywka">Rozrywka</option>
+                    </select>
+                    <select id="sort-select">
+                        <option value="default">Domyślne sortowanie</option>
+                        <option value="price-asc">Cena: najtańsze</option>
+                        <option value="price-desc">Cena: najdroższe</option>
+                        <option value="rating-desc">Ocena: najwyższa</option>
+                    </select>
+                </div>
+
+                <!-- KONTENER PRZEWIJANIA POZIOMEGO DLA TABELI -->
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nazwa</th>
+                                <th>Miejscowość</th>
+                                <th>Kategoria</th>
+                                <th>Koszt</th>
+                                <th>Ocena</th>
+                                <th>Akcja</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attractions-tbody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEKCJA ANALIZA -->
+            <section id="analiza" class="content-section">
+                <h2>Analiza i Statystyki</h2>
+                <div class="kpi-box">
+                    <div class="kpi">
+                        <span>Liczba atrakcji</span>
+                        <strong id="kpi-total">0</strong>
+                    </div>
+                    <div class="kpi">
+                        <span>Średni koszt wstępu</span>
+                        <strong id="kpi-avg">0.00 PLN</strong>
+                    </div>
+                    <div class="kpi">
+                        <span>Darmowe obiekty</span>
+                        <strong id="kpi-free">0</strong>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Liczba atrakcji według kategorii</h3>
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="attractionsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- 2. OSOBNA ZAKŁADKA: TWÓJ PLAN -->
+        <div id="plan" class="tab-content">
+            <section class="content-section" style="margin-top: 0; border-top: none;">
+                <h2>Twój Plan Wycieczki Jednodniowej</h2>
+                <p style="color: #64748b; margin-bottom: 1.5rem;">Lista obiektów dodanych z Bazy Atrakcji wraz z wyliczonym łącznym budżetem.</p>
+                <div class="planner">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nazwa atrakcji</th>
+                                    <th>Miejscowość</th>
+                                    <th>Koszt wstępu</th>
+                                    <th>Usuń</th>
+                                </tr>
+                            </thead>
+                            <tbody id="plan-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="plan-summary">
+                        Szacowany łączny koszt wstępów: <strong id="plan-total">0.00 PLN</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 3. OSOBNA ZAKŁADKA: FORMULARZ -->
+        <div id="formularz" class="tab-content">
+            <section class="content-section" style="margin-top: 0; border-top: none;">
+                <h2>Formularz zgłaszania atrakcji</h2>
+                <form id="add-form">
+                    <fieldset>
+                        <legend>Dane podstawowe o obiekcie</legend>
+
+                        <label for="form-name">Nazwa atrakcji:</label>
+                        <input type="text" id="form-name" placeholder="np. Zamek w Łańcucie" required minlength="3">
+
+                        <label for="form-city">Miejscowość:</label>
+                        <input type="text" id="form-city" placeholder="np. Łańcut" required>
+
+                        <label for="form-type">Kategoria:</label>
+                        <select id="form-type" required>
+                            <option value="">-- Wybierz kategorię --</option>
+                            <option value="zabytek">Zabytek</option>
+                            <option value="natura">Natura</option>
+                            <option value="rozrywka">Rozrywka</option>
+                        </select>
+
+                        <label for="form-cost">Koszt wstępu (PLN):</label>
+                        <input type="number" id="form-cost" min="0" max="10000" step="0.01" placeholder="0.00" required>
+
+                        <label for="form-rating">Ocena (1-5):</label>
+                        <input type="number" id="form-rating" min="1" max="5" step="0.1" placeholder="4.5" required>
+
+                        <label for="form-email">E-mail zgłaszającego:</label>
+                        <input type="email" id="form-email" placeholder="jan@example.com" required>
+
+                        <label for="form-url">Adres URL do zdjęcia (opcjonalnie):</label>
+                        <input type="url" id="form-url" placeholder="https://...">
+
+                        <div class="checkbox-box">
+                            <input type="checkbox" id="form-terms" required>
+                            <label for="form-terms">Oświadczam, że podane dane są prawdziwe</label>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary">Dodaj atrakcję do bazy</button>
+                    <div id="form-message" class="message hidden"></div>
+                </form>
+            </section>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 PodkarpacieData — Projekt Aplikacje Internetowe
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
