@@ -1,19 +1,19 @@
 let attractions = [
-    { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "zabytek", cost: 46.00, rating: 4.6 },
-    { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "natura", cost: 11.00, rating: 4.9 },
-    { id: 3, name: "Zapora Solina", city: "Solina", type: "rozrywka", cost: 0.00, rating: 4.7 },
-    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "zabytek", cost: 32.00, rating: 4.7 },
-    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "natura", cost: 11.00, rating: 4.9 },
-    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "zabytek", cost: 25.00, rating: 4.7 },
-    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "zabytek", cost: 32.00, rating: 4.5 },
-    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "natura", cost: 0.00, rating: 4.8 },
-    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "rozrywka", cost: 49.00, rating: 4.8 },
-    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "natura", cost: 27.00, rating: 4.7 },
-    { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "rozrywka", cost: 47.00, rating: 4.5 },
-    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "rozrywka", cost: 33.00, rating: 4.7 },
-    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "zabytek", cost: 20.00, rating: 4.7 },
-    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "zabytek", cost: 0.00, rating: 4.6 },
-    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "natura", cost: 0.00, rating: 4.6 }
+    { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6 },
+    { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9 },
+    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7 },
+    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7 },
+    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9 },
+    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7 },
+    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5 },
+    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8 },
+    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8 },
+    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7 },
+    { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "Rozrywka", cost: 47.00, rating: 4.5 },
+    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7 },
+    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7 },
+    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6 },
+    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6 }
 ];
 
 let myPlan = [];
