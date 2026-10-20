@@ -227,9 +227,9 @@ function initChart() {
 
 function getCounts() {
     return {
-        zabytek: attractions.filter(a => a.type === 'zabytek').length,
-        natura: attractions.filter(a => a.type === 'natura').length,
-        rozrywka: attractions.filter(a => a.type === 'rozrywka').length
+        zabytek: attractions.filter(a => a.type === 'Zabytek').length,
+        natura: attractions.filter(a => a.type === 'Natura').length,
+        rozrywka: attractions.filter(a => a.type === 'Rozrywka').length
     };
 }
 
