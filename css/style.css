@@ -1,17 +1,19 @@
+/* 1. RESET I USTAWIENIA PODSTAWOWE */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-    background-color: #ffffff;
-    color: #2d3748;
+    background-color: #f8fafc;
+    color: #1e293b;
     line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
 }
 
-/* NAWIGACJA Z WYSOKIM WARSTWOWANIEM Z-INDEX */
+/* 2. NAWIGACJA GŁÓWNA (RESPONSYWNA) */
 .navbar {
     background-color: #ffffff;
     border-bottom: 1px solid #e2e8f0;
@@ -23,40 +25,50 @@ body {
     align-items: center;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 1.2rem 1.5rem;
-    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    width: 100%;
 }
 
 .logo {
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: #1e4265;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
 }
 
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 0.5rem;
+    gap: 0.3rem;
+    padding: 0;
+    margin: 0;
 }
 
 .nav-links a {
     text-decoration: none;
     color: #64748b;
     font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
+    font-size: 0.88rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
     white-space: nowrap;
+    display: inline-block;
 }
 
 .nav-links a:hover, .nav-links a.active {
     color: #1e4265;
+    background-color: #f1f5f9;
 }
 
-/* KONTENER GŁÓWNY */
+/* 3. KONTENER GŁÓWNY I SEKCJE */
 .container {
     max-width: 1100px;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
+    margin: 1.5rem auto;
+    padding: 0 1.25rem;
     min-height: 80vh;
 }
 
@@ -69,55 +81,53 @@ body {
 }
 
 .content-section {
-    margin-top: 3.5rem;
+    margin-top: 2.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid #e2e8f0;
 }
 
-/* Dopisujemy scroll-margin-top dla płynnego zatrzymywania nad nawigacją */
-.content-section h2, 
-#dane, 
-#analiza {
+.content-section h2, #dane, #analiza {
     scroll-margin-top: 90px;
 }
 
 .content-section h2 {
     color: #1e4265;
-    font-size: 1.6rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
-/* HERO SECTION - ZDJĘCIA POZIOMO PO TEKSTEM */
+/* 4. HERO SECTION I GALERIA */
 .hero-box {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
     margin-bottom: 2rem;
 }
 
 .hero-text h1 {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     color: #1e4265;
-    margin-bottom: 0.8rem;
-    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
 }
 
 .hero-text p {
-    color: #64748b;
-    font-size: 1.05rem;
-    margin-bottom: 1.5rem;
+    color: #475569;
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
 }
 
 .hero-btns {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .hero-gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
 }
 
 .hero-gallery figure {
@@ -126,33 +136,36 @@ body {
 
 .hero-gallery img {
     width: 100%;
-    height: 140px;
+    height: 130px;
     object-fit: cover;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .hero-gallery figcaption {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #64748b;
     text-align: center;
     margin-top: 4px;
+    font-weight: 500;
 }
 
-/* KAFELKI SKRÓTÓW */
+/* 5. KAFELKI SKRÓTÓW */
 .nav-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 
 .nav-card {
     padding: 1.25rem;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid #e2e8f0;
     background-color: #ffffff;
     cursor: pointer;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .nav-card:hover {
@@ -161,58 +174,61 @@ body {
 }
 
 .card-icon {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+    margin-bottom: 0.4rem;
 }
 
 .nav-card h3 {
     color: #1e4265;
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
+    margin-bottom: 0.3rem;
 }
 
 .nav-card p {
     color: #64748b;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
 }
 
-/* FILTRY I DEDYKOWANY PRZEWIJANY KONTENER DLA TABELI */
+/* 6. FILTRY I RESPONSYWNA TABELA */
 .filters {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
 }
 
 .filters input, .filters select {
-    padding: 0.65rem 1rem;
+    padding: 0.65rem 0.85rem;
     border: 1px solid #cbd5e1;
-    border-radius: 6px;
+    border-radius: 8px;
     flex: 1;
-    font-size: 0.95rem;
-}
-
-.filters input:focus, .filters select:focus, input:focus, select:focus {
-    outline: none;
-    border-color: #1e4265;
+    min-width: 140px;
+    font-size: 0.9rem;
+    background-color: #ffffff;
 }
 
 .table-container {
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #ffffff;
     margin-bottom: 1.5rem;
 }
 
 table {
     width: 100%;
-    min-width: 650px;
+    min-width: 600px;
     border-collapse: collapse;
 }
 
 th, td {
-    padding: 0.9rem 1rem;
-    border-bottom: 1px solid #e2e8f0;
+    padding: 0.75rem 0.9rem;
+    border-bottom: 1px solid #f1f5f9;
     text-align: left;
+    font-size: 0.9rem;
     white-space: nowrap;
 }
 
@@ -226,35 +242,35 @@ tbody tr:hover {
     background-color: #f8fafc;
 }
 
-/* PLANER TRASY */
+/* 7. PLANER I DASHBOARD */
 .planner {
-    padding: 1.5rem;
-    border-radius: 8px;
+    padding: 1.25rem;
+    border-radius: 10px;
     border: 1px solid #e2e8f0;
     background-color: #ffffff;
 }
 
 .plan-summary {
     text-align: right;
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-top: 1rem;
+    font-weight: 600;
 }
 
 .plan-summary strong {
     color: #1e4265;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
-/* DASHBOARD KPI */
 .kpi-box {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .kpi {
     border: 1px solid #e2e8f0;
-    padding: 1.25rem;
+    padding: 1rem;
     flex: 1;
     border-radius: 8px;
     text-align: center;
@@ -262,56 +278,46 @@ tbody tr:hover {
 }
 
 .kpi span {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #64748b;
 }
 
 .kpi strong {
     display: block;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     color: #1e4265;
-    margin-top: 0.3rem;
+    margin-top: 0.2rem;
 }
 
-.chart-container {
-    margin-top: 2rem;
-}
-
-.chart-container h3 {
-    margin-bottom: 1rem;
-    color: #1e4265;
-    font-size: 1.1rem;
-}
-
-/* FORMULARZ */
+/* 8. FORMULARZ */
 fieldset {
     border: 1px solid #cbd5e1;
-    padding: 1.5rem;
+    padding: 1.25rem;
     border-radius: 8px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     background-color: #ffffff;
 }
 
 legend {
     font-weight: 600;
     color: #1e4265;
-    padding: 0 0.5rem;
+    padding: 0 0.4rem;
 }
 
 label {
     display: block;
-    margin-top: 1rem;
+    margin-top: 0.85rem;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 input, select {
     width: 100%;
     padding: 0.65rem;
-    margin-top: 0.3rem;
+    margin-top: 0.25rem;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .checkbox-box {
@@ -325,14 +331,14 @@ input, select {
     width: auto;
 }
 
-/* PRZYCISKI I KOMUNIKATY */
+/* 9. PRZYCISKI I STOPKA */
 .btn {
-    padding: 0.65rem 1.25rem;
+    padding: 0.65rem 1.1rem;
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
     border: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     transition: background-color 0.2s ease;
 }
 
@@ -341,80 +347,100 @@ input, select {
     color: #ffffff;
 }
 
-.btn-primary:hover {
-    background-color: #152e47;
-}
-
 .btn-secondary {
     background-color: #f1f5f9;
-    color: #2d3748;
+    color: #334155;
     border: 1px solid #cbd5e1;
-}
-
-.btn-secondary:hover {
-    background-color: #e2e8f0;
 }
 
 .btn-btn-delete {
     background-color: #ef4444;
     color: white;
     border: none;
-    padding: 0.4rem 0.8rem;
+    padding: 0.35rem 0.75rem;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 0.8rem;
 }
 
 .message {
     margin-top: 1rem;
-    padding: 0.8rem;
+    padding: 0.75rem;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .message.success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-.message.error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 .hidden { display: none; }
 
 .footer {
     text-align: center;
-    padding: 2rem;
+    padding: 1.5rem;
     color: #64748b;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     background-color: #ffffff;
     border-top: 1px solid #e2e8f0;
-    margin-top: 3rem;
+    margin-top: 2.5rem;
 }
 
-/* RESPONSYWNOŚĆ */
+/* 10. REGUŁY RESPONSYWNE (TELEFON ORAZ ZWĘŻONE OKNO LAPTOPA) */
 @media (max-width: 992px) {
-    .hero-gallery {
-        grid-template-columns: 1fr;
-    }
-    .nav-cards-grid {
-        grid-template-columns: 1fr;
-    }
-    .kpi-box, .filters {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 480px) {
     .navbar {
         flex-direction: column;
-        gap: 0.8rem;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 0.5rem;
     }
 
     .nav-links {
-        width = 100%;
-        justify-content: space-around;
-        gap: 0.2rem;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 0.1rem;
     }
 
     .nav-links a {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
+        padding: 0.3rem 0.25rem;
+        text-align: center;
     }
 
-    . logo {
-        font-size: 1.1rem;
+    .hero-text h1 {
+        font-size: 1.45rem;
+    }
+
+    .hero-btns {
+        flex-direction: column;
+    }
+
+    .hero-btns .btn {
+        width: 100%;
+    }
+
+    .hero-gallery {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .hero-gallery img {
+        height: 160px;
+    }
+
+    .nav-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .filters input, .filters select {
+        width: 100%;
+    }
+
+    .kpi-box {
+        flex-direction: column;
+        gap: 0.75rem;
     }
 }
