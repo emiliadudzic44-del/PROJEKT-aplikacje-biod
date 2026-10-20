@@ -402,4 +402,18 @@ input, select {
         flex-direction: column;
         gap: 0.8rem;
     }
+
+    .nav-links {
+        width = 100%;
+        justify-content: space-around;
+        gap: 0.2rem;
+    }
+
+    .nav-links a {
+        font-size: 0.8rem;
+    }
+
+    . logo {
+        font-size: 1.1rem;
+    }
 }
