@@ -1,19 +1,19 @@
 let attractions = [
-    { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6 },
-    { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9 },
-    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7 },
-    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7 },
-    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9 },
-    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7 },
-    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5 },
-    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8 },
-    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8 },
-    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7 },
-    { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "Rozrywka", cost: 47.00, rating: 4.5 },
-    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7 },
-    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7 },
-    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6 },
-    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6 }
+    { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6, isApproved: true },
+    { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, isApproved: true },
+    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7, isApproved: true },
+    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7, isApproved: true },
+    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9, isApproved: true },
+    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7, isApproved: true },
+    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5, isApproved: true },
+    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8, isApproved: true },
+    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8, isApproved: true },
+    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7, isApproved: true },
+    { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "Rozrywka", cost: 47.00, rating: 4.5, isApproved: true },
+    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7, isApproved: true },
+    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7, isApproved: true },
+    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6, isApproved: true },
+    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, isApproved: true }
 ];
 
 let myPlan = [];
@@ -21,6 +21,7 @@ let chartInstance = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
+    setupThemeToggle();
     renderTable();
     renderPlan();
     updateDashboard();
@@ -30,9 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#filter-type').addEventListener('change', renderTable);
     document.querySelector('#sort-select').addEventListener('change', renderTable);
     document.querySelector('#add-form').addEventListener('submit', handleAddForm);
+    document.querySelector('#admin-show-pending').addEventListener('click', toggleAdminView);
 });
 
-// system nawigacji i scrollowania dla sekcji
+// System nawigacji i scrollowania
 function setupNavigation() {
     const navLinks = document.querySelectorAll('.nav-btn');
     const scrollBtns = document.querySelectorAll('.scroll-btn');
@@ -48,9 +50,7 @@ function setupNavigation() {
         const activeNavBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
         if (activeNavBtn) activeNavBtn.classList.add('active');
 
-        if (targetId === 'start') {
-            setTimeout(initChart, 100);
-        }
+        if (targetId === 'start') setTimeout(initChart, 100);
     }
 
     function scrollToSection(sectionId) {
@@ -60,12 +60,7 @@ function setupNavigation() {
             if (section) {
                 const navbarHeight = document.querySelector('.navbar').offsetHeight || 70;
                 const elementPosition = section.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - navbarHeight - 20;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: elementPosition - navbarHeight - 20, behavior: 'smooth' });
             }
         }, 50);
     }
@@ -75,32 +70,38 @@ function setupNavigation() {
             e.preventDefault();
             const targetView = link.getAttribute('data-target');
             const scrollTarget = link.getAttribute('data-scroll');
-
             switchView(targetView);
-            if (scrollTarget) {
-                scrollToSection(scrollTarget);
-            } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+            if (scrollTarget) scrollToSection(scrollTarget);
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 
     scrollBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const scrollTarget = btn.getAttribute('data-scroll');
-            scrollToSection(scrollTarget);
-        });
+        btn.addEventListener('click', () => scrollToSection(btn.getAttribute('data-scroll')));
     });
 
     pageBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const pageTarget = btn.getAttribute('data-target');
-            switchView(pageTarget);
+            switchView(btn.getAttribute('data-target'));
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 }
 
+// Obsługa Trybu Ciemnego
+function setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    const isDark = localStorage.getItem('theme') === 'dark';
+    
+    if (isDark) document.body.classList.add('dark-mode');
+    
+    btn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    });
+}
+
+// Tabela główna (Tylko zaakceptowane obiekty)
 function renderTable() {
     const tbody = document.querySelector('#attractions-tbody');
     if (!tbody) return;
@@ -112,7 +113,8 @@ function renderTable() {
     let list = attractions.filter(item => {
         const matchesQuery = item.name.toLowerCase().includes(query) || item.city.toLowerCase().includes(query);
         const matchesType = type === 'all' || item.type === type;
-        return matchesQuery && matchesType;
+        const matchesApproval = item.isApproved === true; // Zabezpieczenie admina
+        return matchesQuery && matchesType && matchesApproval;
     });
 
     if (sort === 'price-asc') list.sort((a, b) => a.cost - b.cost);
@@ -132,33 +134,25 @@ function renderTable() {
             <td>${item.cost === 0 ? 'Darmowe' : item.cost.toFixed(2) + ' PLN'}</td>
             <td>⭐ ${item.rating.toFixed(1)}</td>
             <td>
-                <button type="button" class="btn btn-secondary" ${inPlan ? 'disabled style="opacity:0.5"' : ''}>
+                <button type="button" class="btn btn-secondary btn-sm" ${inPlan ? 'disabled style="opacity:0.5"' : ''}>
                     ${inPlan ? 'Dodano ✓' : 'Dodaj do planu'}
                 </button>
             </td>
         `;
 
-        if (!inPlan) {
-            tr.querySelector('button').addEventListener('click', () => addToPlan(item.id));
-        }
-
+        if (!inPlan) tr.querySelector('button').addEventListener('click', () => addToPlan(item.id));
         tbody.appendChild(tr);
     });
 }
 
 function addToPlan(id) {
     const item = attractions.find(a => a.id === id);
-    if (item) {
-        myPlan.push(item);
-        renderPlan();
-        renderTable();
-    }
+    if (item) { myPlan.push(item); renderPlan(); renderTable(); }
 }
 
 function removeFromPlan(id) {
     myPlan = myPlan.filter(p => p.id !== id);
-    renderPlan();
-    renderTable();
+    renderPlan(); renderTable();
 }
 
 function renderPlan() {
@@ -168,7 +162,7 @@ function renderPlan() {
     let sum = 0;
 
     if (myPlan.length === 0) {
-        planTbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:2rem;">Brak wybranych atrakcji w planie. Kliknij „Dodaj do planu” przy obiektach na stronie głównej.</td></tr>';
+        planTbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Brak wybranych atrakcji.</td></tr>';
     } else {
         myPlan.forEach(item => {
             sum += item.cost;
@@ -179,19 +173,18 @@ function renderPlan() {
                 <td>${item.cost === 0 ? 'Darmowe' : item.cost.toFixed(2) + ' PLN'}</td>
                 <td><button type="button" class="btn-btn-delete">Usuń</button></td>
             `;
-
             tr.querySelector('button').addEventListener('click', () => removeFromPlan(item.id));
             planTbody.appendChild(tr);
         });
     }
-
     document.querySelector('#plan-total').textContent = `${sum.toFixed(2)} PLN`;
 }
 
 function updateDashboard() {
-    const total = attractions.length;
-    const free = attractions.filter(a => a.cost === 0).length;
-    const avg = total > 0 ? (attractions.reduce((s, a) => s + a.cost, 0) / total).toFixed(2) : '0.00';
+    const approved = attractions.filter(a => a.isApproved);
+    const total = approved.length;
+    const free = approved.filter(a => a.cost === 0).length;
+    const avg = total > 0 ? (approved.reduce((s, a) => s + a.cost, 0) / total).toFixed(2) : '0.00';
 
     document.querySelector('#kpi-total').textContent = total;
     document.querySelector('#kpi-avg').textContent = `${avg} PLN`;
@@ -201,10 +194,12 @@ function updateDashboard() {
 function initChart() {
     const chartCanvas = document.querySelector('#attractionsChart');
     if (!chartCanvas) return;
+    if (chartInstance) chartInstance.destroy();
 
-    if (chartInstance) {
-        chartInstance.destroy();
-    }
+    const approved = attractions.filter(a => a.isApproved);
+    const zabytek = approved.filter(a => a.type === 'Zabytek').length;
+    const natura = approved.filter(a => a.type === 'Natura').length;
+    const rozrywka = approved.filter(a => a.type === 'Rozrywka').length;
 
     const ctx = chartCanvas.getContext('2d');
     chartInstance = new Chart(ctx, {
@@ -212,7 +207,7 @@ function initChart() {
         data: {
             labels: ['Zabytki', 'Natura', 'Rozrywka'],
             datasets: [{
-                data: [getCounts().zabytek, getCounts().natura, getCounts().rozrywka],
+                data: [zabytek, natura, rozrywka],
                 backgroundColor: ['#be3c33', '#18b62a', '#dbdb15'],
             }]
         },
@@ -225,28 +220,16 @@ function initChart() {
     });
 }
 
-function getCounts() {
-    return {
-        zabytek: attractions.filter(a => a.type === 'Zabytek').length,
-        natura: attractions.filter(a => a.type === 'Natura').length,
-        rozrywka: attractions.filter(a => a.type === 'Rozrywka').length
-    };
-}
-
 function handleAddForm(e) {
     e.preventDefault();
-
-    const email = document.querySelector('#form-email').value.trim();
     const msgEl = document.querySelector('#form-message');
-
-    const atIndex = email.indexOf('@');
-    const dotIndex = email.lastIndexOf('.');
-
-    if (atIndex < 1 || dotIndex <= atIndex + 1 || dotIndex === email.length - 1) {
-        msgEl.textContent = "Błąd: Wprowadź poprawny adres e-mail.";
-        msgEl.style.backgroundColor = "#fee2e2";
-        msgEl.style.color = "#991b1b";
-        msgEl.style.border = "1px solid #fca5a5";
+    
+    // Weryfikacja Anty-Bot
+    const captcha = parseInt(document.querySelector('#form-captcha').value);
+    if (captcha !== 7) { 
+        msgEl.textContent = "Błąd weryfikacji. Obliczenia są nieprawidłowe (3 + 4).";
+        msgEl.className = "message";
+        msgEl.style = "background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;";
         msgEl.classList.remove('hidden');
         return;
     }
@@ -257,15 +240,32 @@ function handleAddForm(e) {
     const cost = parseFloat(document.querySelector('#form-cost').value);
     const rating = parseFloat(document.querySelector('#form-rating').value);
 
-    attractions.push({ id: Date.now(), name, city, type, cost, rating });
+    // Dodanie obiektu ze statusem isApproved: false (czeka na admina)
+    attractions.push({ id: Date.now(), name, city, type, cost, rating, isApproved: false });
 
-    renderTable();
-    updateDashboard();
-
-    msgEl.textContent = "Atrakcja została pomyślnie dodana!";
+    msgEl.textContent = "Atrakcja zgłoszona! Oczekuje na weryfikację przez administratora.";
     msgEl.className = "message success";
     msgEl.style = "";
     msgEl.classList.remove('hidden');
-
     document.querySelector('#add-form').reset();
+}
+
+function toggleAdminView() {
+    const pending = attractions.filter(a => !a.isApproved);
+    if (pending.length === 0) {
+        alert("Brak obiektów oczekujących na weryfikację.");
+        return;
+    }
+    
+    let info = "Obiekty do akceptacji:\n";
+    pending.forEach(p => { info += `- ${p.name} w ${p.city}\n`; });
+    
+    const confirmApprove = confirm(info + "\nCzy chcesz zaakceptować wszystkie zgłoszenia i dodać je do bazy?");
+    if (confirmApprove) {
+        attractions.forEach(a => a.isApproved = true);
+        renderTable();
+        updateDashboard();
+        initChart();
+        alert("Wszystkie obiekty zostały zaakceptowane!");
+    }
 }
