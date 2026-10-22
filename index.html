@@ -19,6 +19,8 @@
                 <li><a href="#analiza" class="nav-btn" data-target="start" data-scroll="analiza">Analiza</a></li>
                 <li><a href="#plan" class="nav-btn" data-target="plan">Twój Plan</a></li>
                 <li><a href="#formularz" class="nav-btn" data-target="formularz">Formularz</a></li>
+                <li><a href="#autorzy" class="nav-btn" data-target="autorzy">O autorach</a></li>
+                <li><button id="theme-toggle" class="btn btn-secondary" style="padding: 0.35rem 0.5rem;">🌙 Tryb ciemny</button></li>
             </ul>
         </nav>
     </header>
@@ -166,6 +168,20 @@
             </section>
         </div>
 
+        <!-- osobna zakładka o autorach -->
+        <div id="autorzy" class="tab-content">
+            <section class="content-section" style="margin-top: 0; border-top: none;">
+                <h2>O autorach i projekcie</h2>
+                <p>Projekt z przedmiotu Aplikacje Internetowe prezentujący bazę atrakcji turystycznych na Podkarpaciu.</p>
+                <p><strong>Autorzy:</strong> Jan Kowalski, Anna Nowak (Grupa 3)</p>
+                <div style="margin-top: 2rem;">
+                    <h3>Panel Administratora (Testowy)</h3>
+                    <p>Zarządzaj opiniami/obiektami zgłoszonymi przez użytkowników.</p>
+                    <button id="admin-show-pending" class="btn btn-primary">Pokaż obiekty oczekujące na akceptację</button>
+                </div>
+            </section>
+        </div>
+
         <!-- osobna zakłądka formualrz -->
         <div id="formularz" class="tab-content">
             <section class="content-section" style="margin-top: 0; border-top: none;">
@@ -200,6 +216,14 @@
                         <label for="form-url">Adres URL do zdjęcia (opcjonalnie):</label>
                         <input type="url" id="form-url" placeholder="https://...">
 
+                        <label for="form-phone">Numer telefonu (Regex):</label>
+                        <input type="tel" id="form-phone" pattern="[0-9]{9}" placeholder="123456789" title="Podaj 9 cyfr bez spacji" required>
+                        
+                        <label for="form-captcha">Czy jesteś człowiekiem? (Weryfikacja)</label>
+                        <div style="display: flex; gap: 10px; align-items: center; margin-top: 0.25rem;">
+                            <span>Ile to jest 3 + 4?</span>
+                            <input type="number" id="form-captcha" style="width: 100px; margin-top: 0;" required>
+                        </div>
                         <div class="checkbox-box">
                             <input type="checkbox" id="form-terms" required>
                             <label for="form-terms">Oświadczam, że podane dane są prawdziwe</label>
