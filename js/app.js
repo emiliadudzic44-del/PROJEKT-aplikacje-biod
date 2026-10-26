@@ -1,4 +1,4 @@
-// Domyślna baza (ładuje się tylko, jeśli użytkownik wchodzi pierwszy raz)
+// Domyślna baza
 const defaultAttractions = [
     { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6, isApproved: true },
     { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, isApproved: true },
@@ -17,13 +17,11 @@ const defaultAttractions = [
     { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, isApproved: true }
 ];
 
-// Sprawdzanie, czy mamy już zapisane obiekty w pamięci przeglądarki
 let attractions = JSON.parse(localStorage.getItem('podkarpacie_data')) || defaultAttractions;
 let myPlan = [];
 let chartInstance = null;
 let expectedCaptchaResult = 0;
 
-// Funkcja pomocnicza do zapisu w localStorage
 function saveToStorage() {
     localStorage.setItem('podkarpacie_data', JSON.stringify(attractions));
 }
@@ -31,6 +29,7 @@ function saveToStorage() {
 document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
     setupThemeToggle();
+    setupImageModal();
     renderTable();
     renderPlan();
     updateDashboard();
@@ -116,7 +115,31 @@ function setupThemeToggle() {
     });
 }
 
-// Tabela główna
+// Obsługa powiększania zdjęć w galerii (Modal)
+function setupImageModal() {
+    const modal = document.getElementById('photoModal');
+    const modalImg = document.getElementById('modalImg');
+    const modalCaption = document.getElementById('modalCaption');
+    const figures = document.querySelectorAll('.hero-gallery figure');
+
+    figures.forEach(figure => {
+        const img = figure.querySelector('img');
+        const caption = figure.querySelector('figcaption');
+        
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            modalImg.src = img.src;
+            modalCaption.textContent = caption ? caption.textContent : '';
+        });
+    });
+
+    modal.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+}
+
+// Tabela główna (z przyciskiem usuwania dla administratora)
 function renderTable() {
     const tbody = document.querySelector('#attractions-tbody');
     if (!tbody) return;
@@ -143,7 +166,6 @@ function renderTable() {
         const inPlan = myPlan.some(p => p.id === item.id);
 
         tr.innerHTML = `
-            tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td>${item.city}</td>
             <td>${item.type}</td>
@@ -273,7 +295,7 @@ function handleAddForm(e) {
 
     // Dodanie obiektu
     attractions.push({ id: Date.now(), name, city, type, cost, rating, isApproved: false });
-    saveToStorage(); // ZAPIS DO PAMIĘCI PRZEGLĄDARKI
+    saveToStorage();
 
     msgEl.textContent = "Atrakcja zgłoszona! Oczekuje na weryfikację przez administratora.";
     msgEl.className = "message success";
@@ -323,9 +345,10 @@ function toggleAdminView() {
     
     let html = '<ul style="list-style: none; padding: 0; margin-bottom: 1rem;">';
     pending.forEach(p => {
+        const costText = p.cost === 0 ? 'Darmowe' : `${p.cost.toFixed(2)} PLN`;
         html += `
             <li style="padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color);">
-                <span><strong>${p.name}</strong> (${p.city}) - <span style="color: var(--text-muted);">${p.type}</span></span>
+                <span><strong>${p.name}</strong> (${p.city}) — <span style="color: var(--text-muted);">${p.type}</span> | <strong>Koszt:</strong> ${costText} | ⭐ <strong>${p.rating}</strong></span>
                 <div>
                     <button onclick="approveAttraction(${p.id})" class="btn btn-primary btn-sm">Akceptuj</button>
                     <button onclick="rejectAttraction(${p.id})" class="btn btn-btn-delete btn-sm" style="margin-left: 0.5rem;">Odrzuć</button>
@@ -351,12 +374,13 @@ window.approveAttraction = function(id) {
     updateAllData();
 };
 
-// Funkcja odrzucająca
+// Funkcja odrzucająca (dla oczekujących)
 window.rejectAttraction = function(id) {
     attractions = attractions.filter(a => a.id !== id);
     updateAllData();
 };
 
+// Funkcja usuwająca już zatwierdzone z bazy
 window.deleteAttractionFromBase = function(id) {
     if (confirm("Czy na pewno chcesz trwale usunąć tę atrakcję z bazy?")) {
         attractions = attractions.filter(a => a.id !== id);
@@ -366,9 +390,10 @@ window.deleteAttractionFromBase = function(id) {
         initChart();
     }
 };
+
 // Aktualizacja całości + Zapis
 function updateAllData() {
-    saveToStorage(); // ZAPIS DO PAMIĘCI PRZEGLĄDARKI
+    saveToStorage();
     renderTable();
     updateDashboard();
     initChart();
