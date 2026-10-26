@@ -143,6 +143,7 @@ function renderTable() {
         const inPlan = myPlan.some(p => p.id === item.id);
 
         tr.innerHTML = `
+            tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td>${item.city}</td>
             <td>${item.type}</td>
@@ -152,6 +153,7 @@ function renderTable() {
                 <button type="button" class="btn btn-secondary btn-sm" ${inPlan ? 'disabled style="opacity:0.5"' : ''}>
                     ${inPlan ? 'Dodano ✓' : 'Dodaj do planu'}
                 </button>
+                <button type="button" class="btn btn-btn-delete btn-sm" onclick="deleteAttractionFromBase(${item.id})" style="margin-left: 5px;">Usuń</button>
             </td>
         `;
 
@@ -355,6 +357,15 @@ window.rejectAttraction = function(id) {
     updateAllData();
 };
 
+window.deleteAttractionFromBase = function(id) {
+    if (confirm("Czy na pewno chcesz trwale usunąć tę atrakcję z bazy?")) {
+        attractions = attractions.filter(a => a.id !== id);
+        saveToStorage();
+        renderTable();
+        updateDashboard();
+        initChart();
+    }
+};
 // Aktualizacja całości + Zapis
 function updateAllData() {
     saveToStorage(); // ZAPIS DO PAMIĘCI PRZEGLĄDARKI
