@@ -1,4 +1,5 @@
-let attractions = [
+// Domyślna baza (ładuje się tylko, jeśli użytkownik wchodzi pierwszy raz)
+const defaultAttractions = [
     { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6, isApproved: true },
     { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, isApproved: true },
     { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7, isApproved: true },
@@ -16,9 +17,16 @@ let attractions = [
     { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, isApproved: true }
 ];
 
+// Sprawdzanie, czy mamy już zapisane obiekty w pamięci przeglądarki
+let attractions = JSON.parse(localStorage.getItem('podkarpacie_data')) || defaultAttractions;
 let myPlan = [];
 let chartInstance = null;
 let expectedCaptchaResult = 0;
+
+// Funkcja pomocnicza do zapisu w localStorage
+function saveToStorage() {
+    localStorage.setItem('podkarpacie_data', JSON.stringify(attractions));
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
@@ -108,7 +116,7 @@ function setupThemeToggle() {
     });
 }
 
-// Tabela główna (Tylko zaakceptowane obiekty)
+// Tabela główna
 function renderTable() {
     const tbody = document.querySelector('#attractions-tbody');
     if (!tbody) return;
@@ -120,7 +128,7 @@ function renderTable() {
     let list = attractions.filter(item => {
         const matchesQuery = item.name.toLowerCase().includes(query) || item.city.toLowerCase().includes(query);
         const matchesType = type === 'all' || item.type === type;
-        const matchesApproval = item.isApproved === true; // Zabezpieczenie admina
+        const matchesApproval = item.isApproved === true;
         return matchesQuery && matchesType && matchesApproval;
     });
 
@@ -238,7 +246,7 @@ function generateCaptcha() {
     if (questionEl) questionEl.textContent = `${num1} + ${num2}`;
 }
 
-// Obsługa formularza z Captchą
+// Obsługa formularza
 function handleAddForm(e) {
     e.preventDefault();
     const msgEl = document.querySelector('#form-message');
@@ -261,8 +269,9 @@ function handleAddForm(e) {
     const cost = parseFloat(document.querySelector('#form-cost').value);
     const rating = parseFloat(document.querySelector('#form-rating').value);
 
-    // Domyślnie isApproved: false (czeka na admina)
+    // Dodanie obiektu
     attractions.push({ id: Date.now(), name, city, type, cost, rating, isApproved: false });
+    saveToStorage(); // ZAPIS DO PAMIĘCI PRZEGLĄDARKI
 
     msgEl.textContent = "Atrakcja zgłoszona! Oczekuje na weryfikację przez administratora.";
     msgEl.className = "message success";
@@ -280,7 +289,6 @@ function handleAdminLogin() {
     const pass = document.querySelector('#admin-pass').value.trim();
     const errorEl = document.querySelector('#admin-error');
     
-    // Dane dostępowe na sztywno: login: admin, hasło: admin123
     if (login === 'admin' && pass === 'admin123') {
         document.querySelector('#admin-login-section').classList.add('hidden');
         document.querySelector('#admin-panel-section').classList.remove('hidden');
@@ -297,65 +305,61 @@ function handleAdminLogin() {
 function handleAdminLogout() {
     document.querySelector('#admin-login-section').classList.remove('hidden');
     document.querySelector('#admin-panel-section').classList.add('hidden');
+    document.querySelector('#admin-pending-list').style.display = 'none';
 }
 
-    function toggleAdminView() {
-        const pending = attractions.filter(a => !a.isApproved);
-        const listContainer = document.querySelector('#admin-pending-list');
-        
-        // Pokazuje ukryty wcześniej kontener
-        listContainer.style.display = 'block';
+function toggleAdminView() {
+    const pending = attractions.filter(a => !a.isApproved);
+    const listContainer = document.querySelector('#admin-pending-list');
     
-        if (pending.length === 0) {
-            listContainer.innerHTML = '<p style="color: var(--text-muted); font-weight: bold;">Brak obiektów oczekujących na weryfikację.</p>';
-            return;
-        }
-        
-        // Generowanie własnej listy wewnątrz HTML
-        let html = '<ul style="list-style: none; padding: 0; margin-bottom: 1rem;">';
-        pending.forEach(p => {
-            html += `
-                <li style="padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color);">
-                    <span><strong>${p.name}</strong> (${p.city}) - <span style="color: var(--text-muted);">${p.type}</span></span>
-                    <div>
-                        <button onclick="approveAttraction(${p.id})" class="btn btn-primary btn-sm">Akceptuj</button>
-                        <button onclick="rejectAttraction(${p.id})" class="btn btn-btn-delete btn-sm" style="margin-left: 0.5rem;">Odrzuć</button>
-                    </div>
-                </li>
-            `;
-        });
-        html += '</ul>';
-        
-        // Przycisk zbiorczy
-        html += '<button id="admin-approve-all" class="btn btn-secondary">Akceptuj wszystkie</button>';
-    
-        listContainer.innerHTML = html;
-    
-        // Podpięcie eventu do nowego przycisku "Akceptuj wszystkie"
-        document.getElementById('admin-approve-all').addEventListener('click', () => {
-            attractions.forEach(a => a.isApproved = true);
-            updateAllData();
-        });
+    listContainer.style.display = 'block';
+
+    if (pending.length === 0) {
+        listContainer.innerHTML = '<p style="color: var(--text-muted); font-weight: bold;">Brak obiektów oczekujących na weryfikację.</p>';
+        return;
     }
     
-    // Funkcja akceptująca pojedynczy obiekt
-    window.approveAttraction = function(id) {
-        const item = attractions.find(a => a.id === id);
-        if (item) item.isApproved = true;
-        updateAllData();
-    };
+    let html = '<ul style="list-style: none; padding: 0; margin-bottom: 1rem;">';
+    pending.forEach(p => {
+        html += `
+            <li style="padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color);">
+                <span><strong>${p.name}</strong> (${p.city}) - <span style="color: var(--text-muted);">${p.type}</span></span>
+                <div>
+                    <button onclick="approveAttraction(${p.id})" class="btn btn-primary btn-sm">Akceptuj</button>
+                    <button onclick="rejectAttraction(${p.id})" class="btn btn-btn-delete btn-sm" style="margin-left: 0.5rem;">Odrzuć</button>
+                </div>
+            </li>
+        `;
+    });
+    html += '</ul>';
     
-    // Funkcja odrzucająca pojedynczy obiekt (usuwa go całkowicie z tablicy)
-    window.rejectAttraction = function(id) {
-        attractions = attractions.filter(a => a.id !== id);
+    html += '<button id="admin-approve-all" class="btn btn-secondary">Akceptuj wszystkie</button>';
+    listContainer.innerHTML = html;
+
+    document.getElementById('admin-approve-all').addEventListener('click', () => {
+        attractions.forEach(a => a.isApproved = true);
         updateAllData();
-    };
-    
-    // Funkcja pomocnicza do odświeżania wszystkiego naraz
-    function updateAllData() {
-        renderTable();
-        updateDashboard();
-        initChart();
-        toggleAdminView(); // Odświeża samą listę administratora
-    }
+    });
+}
+
+// Funkcja akceptująca
+window.approveAttraction = function(id) {
+    const item = attractions.find(a => a.id === id);
+    if (item) item.isApproved = true;
+    updateAllData();
+};
+
+// Funkcja odrzucająca
+window.rejectAttraction = function(id) {
+    attractions = attractions.filter(a => a.id !== id);
+    updateAllData();
+};
+
+// Aktualizacja całości + Zapis
+function updateAllData() {
+    saveToStorage(); // ZAPIS DO PAMIĘCI PRZEGLĄDARKI
+    renderTable();
+    updateDashboard();
+    initChart();
+    toggleAdminView(); 
 }
