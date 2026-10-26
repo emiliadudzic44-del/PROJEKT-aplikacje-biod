@@ -198,17 +198,17 @@
                         <label for="form-email">E-mail zgłaszającego:</label>
                         <input type="email" id="form-email" placeholder="jan@example.com" required>
 
-                        <!-- Nowe pole z Regex -->
-                        <label for="form-phone">Numer telefonu (Regex):</label>
-                        <input type="tel" id="form-phone" pattern="[0-9]{9}" placeholder="123456789" title="Podaj dokładnie 9 cyfr bez spacji" required>
+                        <!-- Regex: Kod pocztowy -->
+                        <label for="form-zip">Kod pocztowy:</label>
+                        <input type="text" id="form-zip" pattern="[0-9]{2}-[0-9]{3}" placeholder="np. 35-001" title="Podaj kod w formacie XX-XXX" required>
 
                         <label for="form-url">Adres URL do zdjęcia (opcjonalnie):</label>
                         <input type="url" id="form-url" placeholder="https://...">
 
-                        <!-- Weryfikacja anty-bot -->
+                        <!-- Zmienna weryfikacja anty-bot -->
                         <label for="form-captcha">Czy jesteś człowiekiem? (Weryfikacja)</label>
                         <div style="display: flex; gap: 10px; align-items: center; margin-top: 0.25rem;">
-                            <span>Ile to jest 3 + 4?</span>
+                            <span>Ile to jest <strong id="captcha-question"></strong>?</span>
                             <input type="number" id="form-captcha" style="width: 100px; margin-top: 0;" required>
                         </div>
 
@@ -229,13 +229,31 @@
             <section class="content-section" style="margin-top: 0; border-top: none;">
                 <h2>O autorach i projekcie</h2>
                 <p>Projekt z przedmiotu Aplikacje Internetowe prezentujący bazę atrakcji turystycznych na Podkarpaciu.</p>
-                <p><strong>Autorzy:</strong> Lena Czachara, Emilia Dudzic</p>
+                <p><strong>Autorzy:</strong> [Wpiszcie swoje imiona i nazwiska]</p>
                 
+                <!-- Panel Logowania / Administracji -->
                 <div style="margin-top: 2.5rem; padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
                     <h3>Panel Administratora</h3>
-                    <p style="margin-bottom: 1rem; color: var(--text-muted);">Zarządzaj obiektami zgłoszonymi przez użytkowników za pomocą formularza.</p>
-                    <button id="admin-show-pending" class="btn btn-primary">Pokaż obiekty oczekujące na akceptację</button>
+                    
+                    <!-- Widok logowania -->
+                    <div id="admin-login-section">
+                        <p style="margin-bottom: 1rem; color: var(--text-muted);">Zaloguj się, aby zarządzać obiektami.</p>
+                        <input type="text" id="admin-login" placeholder="Login" style="margin-bottom: 0.5rem; width: 100%; max-width: 300px; display: block;">
+                        <input type="password" id="admin-pass" placeholder="Hasło" style="margin-bottom: 1rem; width: 100%; max-width: 300px; display: block;">
+                        
+                        <button id="admin-login-btn" class="btn btn-primary">Zaloguj</button>
+                        <div id="admin-error" class="message hidden" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; max-width: 300px; margin-top: 0.5rem;"></div>
+                    </div>
+
+                    <!-- Ukryty właściwy panel (pojawia się po zalogowaniu) -->
+                    <div id="admin-panel-section" class="hidden">
+                        <p style="margin-bottom: 1rem; color: #166534; font-weight: bold;">Zalogowano pomyślnie jako Administrator.</p>
+                        <p style="margin-bottom: 1rem; color: var(--text-muted);">Zarządzaj obiektami zgłoszonymi przez użytkowników za pomocą formularza.</p>
+                        <button id="admin-show-pending" class="btn btn-primary">Pokaż oczekujące na akceptację</button>
+                        <button id="admin-logout-btn" class="btn btn-secondary" style="margin-left: 0.5rem;">Wyloguj</button>
+                    </div>
                 </div>
+
             </section>
         </div>
 
