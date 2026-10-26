@@ -165,6 +165,9 @@ function renderTable() {
         const tr = document.createElement('tr');
         const inPlan = myPlan.some(p => p.id === item.id);
 
+        // TUTAJ JEST ZMIANA:
+        const isAdminLoggedIn = !document.querySelector('#admin-panel-section').classList.contains('hidden');
+
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td>${item.city}</td>
@@ -175,7 +178,7 @@ function renderTable() {
                 <button type="button" class="btn btn-secondary btn-sm" ${inPlan ? 'disabled style="opacity:0.5"' : ''}>
                     ${inPlan ? 'Dodano ✓' : 'Dodaj do planu'}
                 </button>
-                <button type="button" class="btn btn-btn-delete btn-sm" onclick="deleteAttractionFromBase(${item.id})" style="margin-left: 5px;">Usuń</button>
+                ${isAdminLoggedIn ? `<button type="button" class="btn btn-btn-delete btn-sm" onclick="deleteAttractionFromBase(${item.id})" style="margin-left: 5px;">Usuń</button>` : ''}
             </td>
         `;
 
