@@ -18,6 +18,7 @@ let attractions = [
 
 let myPlan = [];
 let chartInstance = null;
+let expectedCaptchaResult = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
@@ -26,11 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPlan();
     updateDashboard();
     initChart();
+    generateCaptcha();
 
+    // Eventy dla bazy i formularza
     document.querySelector('#search-input').addEventListener('input', renderTable);
     document.querySelector('#filter-type').addEventListener('change', renderTable);
     document.querySelector('#sort-select').addEventListener('change', renderTable);
     document.querySelector('#add-form').addEventListener('submit', handleAddForm);
+    
+    // Eventy dla panelu administratora
+    document.querySelector('#admin-login-btn').addEventListener('click', handleAdminLogin);
+    document.querySelector('#admin-logout-btn').addEventListener('click', handleAdminLogout);
     document.querySelector('#admin-show-pending').addEventListener('click', toggleAdminView);
 });
 
@@ -145,6 +152,7 @@ function renderTable() {
     });
 }
 
+// Funkcje obsługi planu
 function addToPlan(id) {
     const item = attractions.find(a => a.id === id);
     if (item) { myPlan.push(item); renderPlan(); renderTable(); }
@@ -180,6 +188,7 @@ function renderPlan() {
     document.querySelector('#plan-total').textContent = `${sum.toFixed(2)} PLN`;
 }
 
+// Statystyki i Wykres
 function updateDashboard() {
     const approved = attractions.filter(a => a.isApproved);
     const total = approved.length;
@@ -220,17 +229,29 @@ function initChart() {
     });
 }
 
+// Losowanie Captcha
+function generateCaptcha() {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    expectedCaptchaResult = num1 + num2;
+    const questionEl = document.querySelector('#captcha-question');
+    if (questionEl) questionEl.textContent = `${num1} + ${num2}`;
+}
+
+// Obsługa formularza z Captchą
 function handleAddForm(e) {
     e.preventDefault();
     const msgEl = document.querySelector('#form-message');
     
-    // Weryfikacja Anty-Bot
     const captcha = parseInt(document.querySelector('#form-captcha').value);
-    if (captcha !== 7) { 
-        msgEl.textContent = "Błąd weryfikacji. Obliczenia są nieprawidłowe (3 + 4).";
+    if (captcha !== expectedCaptchaResult) { 
+        msgEl.textContent = "Błąd weryfikacji. Zły wynik obliczeń.";
         msgEl.className = "message";
         msgEl.style = "background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;";
         msgEl.classList.remove('hidden');
+        
+        generateCaptcha(); 
+        document.querySelector('#form-captcha').value = ''; 
         return;
     }
 
@@ -240,7 +261,7 @@ function handleAddForm(e) {
     const cost = parseFloat(document.querySelector('#form-cost').value);
     const rating = parseFloat(document.querySelector('#form-rating').value);
 
-    // Dodanie obiektu ze statusem isApproved: false (czeka na admina)
+    // Domyślnie isApproved: false (czeka na admina)
     attractions.push({ id: Date.now(), name, city, type, cost, rating, isApproved: false });
 
     msgEl.textContent = "Atrakcja zgłoszona! Oczekuje na weryfikację przez administratora.";
@@ -248,6 +269,34 @@ function handleAddForm(e) {
     msgEl.style = "";
     msgEl.classList.remove('hidden');
     document.querySelector('#add-form').reset();
+    
+    generateCaptcha(); 
+}
+
+// --- Logika Administratora ---
+
+function handleAdminLogin() {
+    const login = document.querySelector('#admin-login').value.trim();
+    const pass = document.querySelector('#admin-pass').value.trim();
+    const errorEl = document.querySelector('#admin-error');
+    
+    // Dane dostępowe na sztywno: login: admin, hasło: admin123
+    if (login === 'admin' && pass === 'admin123') {
+        document.querySelector('#admin-login-section').classList.add('hidden');
+        document.querySelector('#admin-panel-section').classList.remove('hidden');
+        errorEl.classList.add('hidden');
+        
+        document.querySelector('#admin-login').value = '';
+        document.querySelector('#admin-pass').value = '';
+    } else {
+        errorEl.textContent = 'Błędny login lub hasło!';
+        errorEl.classList.remove('hidden');
+    }
+}
+
+function handleAdminLogout() {
+    document.querySelector('#admin-login-section').classList.remove('hidden');
+    document.querySelector('#admin-panel-section').classList.add('hidden');
 }
 
 function toggleAdminView() {
