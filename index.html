@@ -9,7 +9,7 @@
 </head>
 <body>
     
-<!-- nawigacja główna -->
+    <!-- nawigacja główna -->
     <header class="navbar">
         <div class="logo">⛰️ PodkarpacieData</div>
         <nav>
@@ -19,8 +19,10 @@
                 <li><a href="#analiza" class="nav-btn" data-target="start" data-scroll="analiza">Analiza</a></li>
                 <li><a href="#plan" class="nav-btn" data-target="plan">Twój Plan</a></li>
                 <li><a href="#formularz" class="nav-btn" data-target="formularz">Formularz</a></li>
+                <li><a href="#autorzy" class="nav-btn" data-target="autorzy">O autorach</a></li>
             </ul>
         </nav>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙 Tryb ciemny</button>
     </header>
 
     <main class="container">
@@ -94,7 +96,6 @@
                     </select>
                 </div>
 
-                <!-- przeiwjanie poziome dla tabeli -->
                 <div class="table-container">
                     <table>
                         <thead>
@@ -144,7 +145,7 @@
         <div id="plan" class="tab-content">
             <section class="content-section" style="margin-top: 0; border-top: none;">
                 <h2>Twój Plan wycieczki jednodniowej</h2>
-                <p style="color: #64748b; margin-bottom: 1.5rem;">Lista obiektów dodanych z Bazy Atrakcji wraz z wyliczonym łącznym budżetem.</p>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Lista obiektów dodanych z Bazy Atrakcji wraz z wyliczonym łącznym budżetem.</p>
                 <div class="planner">
                     <div class="table-container">
                         <table>
@@ -166,7 +167,7 @@
             </section>
         </div>
 
-        <!-- osobna zakłądka formualrz -->
+        <!-- osobna zakładka formularz -->
         <div id="formularz" class="tab-content">
             <section class="content-section" style="margin-top: 0; border-top: none;">
                 <h2>Formularz zgłaszania atrakcji</h2>
@@ -197,8 +198,19 @@
                         <label for="form-email">E-mail zgłaszającego:</label>
                         <input type="email" id="form-email" placeholder="jan@example.com" required>
 
+                        <!-- Nowe pole z Regex -->
+                        <label for="form-phone">Numer telefonu (Regex):</label>
+                        <input type="tel" id="form-phone" pattern="[0-9]{9}" placeholder="123456789" title="Podaj dokładnie 9 cyfr bez spacji" required>
+
                         <label for="form-url">Adres URL do zdjęcia (opcjonalnie):</label>
                         <input type="url" id="form-url" placeholder="https://...">
+
+                        <!-- Weryfikacja anty-bot -->
+                        <label for="form-captcha">Czy jesteś człowiekiem? (Weryfikacja)</label>
+                        <div style="display: flex; gap: 10px; align-items: center; margin-top: 0.25rem;">
+                            <span>Ile to jest 3 + 4?</span>
+                            <input type="number" id="form-captcha" style="width: 100px; margin-top: 0;" required>
+                        </div>
 
                         <div class="checkbox-box">
                             <input type="checkbox" id="form-terms" required>
@@ -209,6 +221,21 @@
                     <button type="submit" class="btn btn-primary">Dodaj atrakcję do bazy</button>
                     <div id="form-message" class="message hidden"></div>
                 </form>
+            </section>
+        </div>
+
+        <!-- osobna zakładka o autorach -->
+        <div id="autorzy" class="tab-content">
+            <section class="content-section" style="margin-top: 0; border-top: none;">
+                <h2>O autorach i projekcie</h2>
+                <p>Projekt z przedmiotu Aplikacje Internetowe prezentujący bazę atrakcji turystycznych na Podkarpaciu.</p>
+                <p><strong>Autorzy:</strong> [Wpisz swoje imię i nazwisko]</p>
+                
+                <div style="margin-top: 2.5rem; padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
+                    <h3>Panel Administratora</h3>
+                    <p style="margin-bottom: 1rem; color: var(--text-muted);">Zarządzaj obiektami zgłoszonymi przez użytkowników za pomocą formularza.</p>
+                    <button id="admin-show-pending" class="btn btn-primary">Pokaż obiekty oczekujące na akceptację</button>
+                </div>
             </section>
         </div>
 
