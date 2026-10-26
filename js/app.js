@@ -323,6 +323,8 @@ function handleAdminLogin() {
         
         document.querySelector('#admin-login').value = '';
         document.querySelector('#admin-pass').value = '';
+
+        renderTable(); 
     } else {
         errorEl.textContent = 'Błędny login lub hasło!';
         errorEl.classList.remove('hidden');
@@ -333,6 +335,8 @@ function handleAdminLogout() {
     document.querySelector('#admin-login-section').classList.remove('hidden');
     document.querySelector('#admin-panel-section').classList.add('hidden');
     document.querySelector('#admin-pending-list').style.display = 'none';
+
+    renderTable(); 
 }
 
 function toggleAdminView() {
