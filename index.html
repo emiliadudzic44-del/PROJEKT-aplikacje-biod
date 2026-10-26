@@ -41,19 +41,19 @@
                     </div>
                 </div>
 
-                <!-- zdjęcia widoków -->
+                <!-- zdjęcia widoków (interaktywne z powiększaniem) -->
                 <div class="hero-gallery">
                     <figure>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg" alt="Zamek w Łańcucie">
-                        <figcaption>Zamek w Łańcucie</figcaption>
+                        <figcaption>Zamek w Łańcucie (kliknij, aby powiększyć)</figcaption>
                     </figure>
                     <figure>
                         <img src="https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg" alt="Bieszczady">
-                        <figcaption>Bieszczadzkie Szlaki</figcaption>
+                        <figcaption>Bieszczadzkie Szlaki (kliknij, aby powiększyć)</figcaption>
                     </figure>
                     <figure>
                         <img src="https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg" alt="Kolejka Leśna w Majdanie">
-                        <figcaption>Kolejka Leśna w Majdanie</figcaption>
+                        <figcaption>Kolejka Leśna w Majdanie (kliknij, aby powiększyć)</figcaption>
                     </figure>
                 </div>
             </section>
@@ -238,7 +238,7 @@
                     <!-- Widok logowania -->
                     <div id="admin-login-section">
                         <p style="margin-bottom: 1rem; color: var(--text-muted);">Zaloguj się, aby zarządzać obiektami.</p>
-
+                        
                         <input type="text" id="admin-login" placeholder="Login" style="margin-bottom: 0.5rem; width: 100%; max-width: 300px; display: block;">
                         <input type="password" id="admin-pass" placeholder="Hasło" style="margin-bottom: 1rem; width: 100%; max-width: 300px; display: block;">
                         
@@ -262,6 +262,13 @@
         </div>
 
     </main>
+
+    <!-- Modal do powiększania zdjęć w galerii -->
+    <div id="photoModal" class="image-modal">
+        <img id="modalImg" src="" alt="Powiększone zdjęcie">
+        <span id="modalCaption"></span>
+        <p style="color: #cbd5e1; font-size: 0.85rem; margin-top: 0.5rem;">(Kliknij dowolne miejsce, aby zamknąć)</p>
+    </div>
 
     <!-- stopka -->
     <footer class="footer">
