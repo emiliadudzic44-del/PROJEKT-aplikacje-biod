@@ -299,22 +299,63 @@ function handleAdminLogout() {
     document.querySelector('#admin-panel-section').classList.add('hidden');
 }
 
-function toggleAdminView() {
-    const pending = attractions.filter(a => !a.isApproved);
-    if (pending.length === 0) {
-        alert("Brak obiektów oczekujących na weryfikację.");
-        return;
+    function toggleAdminView() {
+        const pending = attractions.filter(a => !a.isApproved);
+        const listContainer = document.querySelector('#admin-pending-list');
+        
+        // Pokazuje ukryty wcześniej kontener
+        listContainer.style.display = 'block';
+    
+        if (pending.length === 0) {
+            listContainer.innerHTML = '<p style="color: var(--text-muted); font-weight: bold;">Brak obiektów oczekujących na weryfikację.</p>';
+            return;
+        }
+        
+        // Generowanie własnej listy wewnątrz HTML
+        let html = '<ul style="list-style: none; padding: 0; margin-bottom: 1rem;">';
+        pending.forEach(p => {
+            html += `
+                <li style="padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color);">
+                    <span><strong>${p.name}</strong> (${p.city}) - <span style="color: var(--text-muted);">${p.type}</span></span>
+                    <div>
+                        <button onclick="approveAttraction(${p.id})" class="btn btn-primary btn-sm">Akceptuj</button>
+                        <button onclick="rejectAttraction(${p.id})" class="btn btn-btn-delete btn-sm" style="margin-left: 0.5rem;">Odrzuć</button>
+                    </div>
+                </li>
+            `;
+        });
+        html += '</ul>';
+        
+        // Przycisk zbiorczy
+        html += '<button id="admin-approve-all" class="btn btn-secondary">Akceptuj wszystkie</button>';
+    
+        listContainer.innerHTML = html;
+    
+        // Podpięcie eventu do nowego przycisku "Akceptuj wszystkie"
+        document.getElementById('admin-approve-all').addEventListener('click', () => {
+            attractions.forEach(a => a.isApproved = true);
+            updateAllData();
+        });
     }
     
-    let info = "Obiekty do akceptacji:\n";
-    pending.forEach(p => { info += `- ${p.name} w ${p.city}\n`; });
+    // Funkcja akceptująca pojedynczy obiekt
+    window.approveAttraction = function(id) {
+        const item = attractions.find(a => a.id === id);
+        if (item) item.isApproved = true;
+        updateAllData();
+    };
     
-    const confirmApprove = confirm(info + "\nCzy chcesz zaakceptować wszystkie zgłoszenia i dodać je do bazy?");
-    if (confirmApprove) {
-        attractions.forEach(a => a.isApproved = true);
+    // Funkcja odrzucająca pojedynczy obiekt (usuwa go całkowicie z tablicy)
+    window.rejectAttraction = function(id) {
+        attractions = attractions.filter(a => a.id !== id);
+        updateAllData();
+    };
+    
+    // Funkcja pomocnicza do odświeżania wszystkiego naraz
+    function updateAllData() {
         renderTable();
         updateDashboard();
         initChart();
-        alert("Wszystkie obiekty zostały zaakceptowane!");
+        toggleAdminView(); // Odświeża samą listę administratora
     }
 }
