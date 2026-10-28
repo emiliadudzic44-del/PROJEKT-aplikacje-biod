@@ -18,21 +18,21 @@ const defaultAttractions = [
 
 let attractions = JSON.parse(localStorage.getItem('podkarpacie_data')) || defaultAttractions;
 let users = JSON.parse(localStorage.getItem('podkarpacie_users')) || [{ username: 'admin', password: 'admin123' }];
+let reviews = JSON.parse(localStorage.getItem('podkarpacie_reviews')) || [
+    { id: 101, attractionId: 1, user: "JanKowalski", text: "Przepiękne miejsce, warte zobaczenia!", rating: 5, isApproved: true }
+];
 let currentUser = localStorage.getItem('podkarpacie_current_user') || null;
-
-// Prywatny plan użytkownika
 let myPlan = currentUser ? (JSON.parse(localStorage.getItem(`plan_${currentUser}`)) || []) : [];
 
 let chartInstance = null;
 let expectedCaptchaResult = 0;
-
-// Zmienne do paginacji (stronicowania tabeli)
 let currentPage = 1;
-const rowsPerPage = 5; // 5 obiektów na stronę
+const rowsPerPage = 5;
 
 function saveToStorage() {
     localStorage.setItem('podkarpacie_data', JSON.stringify(attractions));
     localStorage.setItem('podkarpacie_users', JSON.stringify(users));
+    localStorage.setItem('podkarpacie_reviews', JSON.stringify(reviews));
     if (currentUser) {
         localStorage.setItem(`plan_${currentUser}`, JSON.stringify(myPlan));
         localStorage.setItem('podkarpacie_current_user', currentUser);
@@ -52,19 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
     initChart();
     generateCaptcha();
 
-    // Eventy formularzy i filtrów
     document.querySelector('#search-input').addEventListener('input', () => { currentPage = 1; renderTable(); });
     document.querySelector('#filter-type').addEventListener('change', () => { currentPage = 1; renderTable(); });
     document.querySelector('#sort-select').addEventListener('change', () => { currentPage = 1; renderTable(); });
     document.querySelector('#add-form').addEventListener('submit', handleAddForm);
     
-    // Eventy konta i autoryzacji
     document.querySelector('#btn-login').addEventListener('click', handleLogin);
     document.querySelector('#btn-register').addEventListener('click', handleRegister);
     document.querySelector('#btn-logout').addEventListener('click', handleLogout);
     document.querySelector('#admin-show-pending').addEventListener('click', toggleAdminView);
 
-    // Przyciski paginacji
     document.querySelector('#prev-page').addEventListener('click', () => {
         if (currentPage > 1) { currentPage--; renderTable(); }
     });
@@ -73,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// System nawigacji
 function setupNavigation() {
     const navLinks = document.querySelectorAll('.nav-btn');
     const scrollBtns = document.querySelectorAll('.scroll-btn');
@@ -127,7 +123,6 @@ function setupNavigation() {
     });
 }
 
-// Tryb ciemny
 function setupThemeToggle() {
     const btn = document.getElementById('theme-toggle');
     const isDark = localStorage.getItem('theme') === 'dark';
@@ -139,7 +134,6 @@ function setupThemeToggle() {
     });
 }
 
-// Modal zdjęć
 function setupImageModal() {
     const modal = document.getElementById('photoModal');
     const modalImg = document.getElementById('modalImg');
@@ -160,7 +154,6 @@ function setupImageModal() {
     modal.addEventListener('click', () => { modal.style.display = 'none'; });
 }
 
-// Tabela główna z Paginacją (Stronicowaniem)
 function renderTable() {
     const tbody = document.querySelector('#attractions-tbody');
     if (!tbody) return;
@@ -180,7 +173,6 @@ function renderTable() {
     if (sort === 'price-desc') list.sort((a, b) => b.cost - a.cost);
     if (sort === 'rating-desc') list.sort((a, b) => b.rating - a.rating);
 
-    // Paginacja - obliczanie stron
     const totalPages = Math.ceil(list.length / rowsPerPage) || 1;
     if (currentPage > totalPages) currentPage = totalPages;
     if (currentPage < 1) currentPage = 1;
@@ -195,16 +187,27 @@ function renderTable() {
         const inPlan = myPlan.some(p => p.id === item.id);
         const isAdmin = currentUser === 'admin';
 
+        const itemReviews = reviews.filter(r => r.attractionId === item.id && r.isApproved);
+        let reviewsHtml = itemReviews.length > 0 ? '<div style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">' : '';
+        itemReviews.forEach(r => {
+            reviewsHtml += `💬 <strong>${r.user}</strong>: "${r.text}" (⭐${r.rating})<br>`;
+        });
+        if (itemReviews.length > 0) reviewsHtml += '</div>';
+
         tr.innerHTML = `
-            <td><strong>${item.name}</strong></td>
+            <td>
+                <strong>${item.name}</strong>
+                ${reviewsHtml}
+            </td>
             <td>${item.city}</td>
             <td>${item.type}</td>
             <td>${item.cost === 0 ? 'Darmowe' : item.cost.toFixed(2) + ' PLN'}</td>
             <td>⭐ ${item.rating.toFixed(1)}</td>
             <td>
-                <button type="button" class="btn btn-secondary btn-sm" ${!currentUser ? 'disabled style="opacity:0.5" title="Zaloguj się, aby dodać do planu"' : (inPlan ? 'disabled style="opacity:0.5"' : '')}>
+                <button type="button" class="btn btn-secondary btn-sm" ${!currentUser ? 'disabled style="opacity:0.5" title="Zaloguj się"' : (inPlan ? 'disabled style="opacity:0.5"' : '')}>
                     ${inPlan ? 'Dodano ✓' : 'Dodaj do planu'}
                 </button>
+                ${currentUser ? `<button type="button" class="btn btn-secondary btn-sm" onclick="openReviewModal(${item.id})" style="margin-left: 5px;">Oceń</button>` : ''}
                 ${isAdmin ? `<button type="button" class="btn btn-btn-delete btn-sm" onclick="deleteAttractionFromBase(${item.id})" style="margin-left: 5px;">Usuń</button>` : ''}
             </td>
         `;
@@ -215,13 +218,11 @@ function renderTable() {
         tbody.appendChild(tr);
     });
 
-    // Aktualizacja widoku informacji o stronie
     document.querySelector('#page-info').textContent = `Strona ${currentPage} z ${totalPages}`;
     document.querySelector('#prev-page').disabled = currentPage === 1;
     document.querySelector('#next-page').disabled = currentPage === totalPages || totalPages === 0;
 }
 
-// Plan użytkownika
 function addToPlan(id) {
     if (!currentUser) { alert("Musisz być zalogowany, aby dodawać obiekty do planu!"); return; }
     const item = attractions.find(a => a.id === id);
@@ -260,7 +261,6 @@ function renderPlan() {
     document.querySelector('#plan-total').textContent = `${sum.toFixed(2)} PLN`;
 }
 
-// Dashboard i wykres
 function updateDashboard() {
     const approved = attractions.filter(a => a.isApproved);
     const total = approved.length;
@@ -301,7 +301,6 @@ function initChart() {
     });
 }
 
-// Captcha
 function generateCaptcha() {
     const num1 = Math.floor(Math.random() * 10) + 1;
     const num2 = Math.floor(Math.random() * 10) + 1;
@@ -310,7 +309,6 @@ function generateCaptcha() {
     if (questionEl) questionEl.textContent = `${num1} + ${num2}`;
 }
 
-// Formularz zgłoszeniowy
 function handleAddForm(e) {
     e.preventDefault();
     const msgEl = document.querySelector('#form-message');
@@ -342,8 +340,6 @@ function handleAddForm(e) {
     document.querySelector('#add-form').reset();
     generateCaptcha(); 
 }
-
-// --- Autoryzacja i Konta Użytkowników ---
 
 function checkAuthSession() {
     const authContainer = document.querySelector('#auth-container');
@@ -428,37 +424,62 @@ function handleLogout() {
     renderPlan();
 }
 
-// Moderacja Admina
 function toggleAdminView() {
     const pending = attractions.filter(a => !a.isApproved);
+    const pendingReviews = reviews.filter(r => !r.isApproved);
     const listContainer = document.querySelector('#admin-pending-list');
     listContainer.style.display = 'block';
 
-    if (pending.length === 0) {
-        listContainer.innerHTML = '<p style="color: var(--text-muted); font-weight: bold;">Brak obiektów oczekujących na weryfikację.</p>';
+    if (pending.length === 0 && pendingReviews.length === 0) {
+        listContainer.innerHTML = '<p style="color: var(--text-muted); font-weight: bold;">Brak obiektów i opinii oczekujących na weryfikację.</p>';
         return;
     }
     
-    let html = '<ul style="list-style: none; padding: 0; margin-bottom: 1rem;">';
-    pending.forEach(p => {
-        const costText = p.cost === 0 ? 'Darmowe' : `${p.cost.toFixed(2)} PLN`;
-        html += `
-            <li style="padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color);">
-                <span><strong>${p.name}</strong> (${p.city}) — <span style="color: var(--text-muted);">${p.type}</span> | <strong>Koszt:</strong> ${costText} | ⭐ <strong>${p.rating}</strong></span>
-                <div>
-                    <button onclick="approveAttraction(${p.id})" class="btn btn-primary btn-sm">Akceptuj</button>
-                    <button onclick="rejectAttraction(${p.id})" class="btn btn-btn-delete btn-sm" style="margin-left: 0.5rem;">Odrzuć</button>
-                </div>
-            </li>
-        `;
-    });
-    html += '</ul>';
+    let html = '';
     
-    html += '<button id="admin-approve-all" class="btn btn-secondary">Akceptuj wszystkie</button>';
+    if (pending.length > 0) {
+        html += '<h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Oczekujące atrakcje:</h4>';
+        html += '<ul style="list-style: none; padding: 0; margin-bottom: 1rem;">';
+        pending.forEach(p => {
+            const costText = p.cost === 0 ? 'Darmowe' : `${p.cost.toFixed(2)} PLN`;
+            html += `
+                <li style="padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color);">
+                    <span><strong>${p.name}</strong> (${p.city}) — <span style="color: var(--text-muted);">${p.type}</span> | <strong>Koszt:</strong> ${costText} | ⭐ <strong>${p.rating}</strong></span>
+                    <div>
+                        <button onclick="approveAttraction(${p.id})" class="btn btn-primary btn-sm">Akceptuj</button>
+                        <button onclick="rejectAttraction(${p.id})" class="btn btn-btn-delete btn-sm" style="margin-left: 0.5rem;">Odrzuć</button>
+                    </div>
+                </li>
+            `;
+        });
+        html += '</ul>';
+    }
+
+    if (pendingReviews.length > 0) {
+        html += '<h4 style="color: var(--primary-color); margin: 1rem 0 0.5rem 0;">Oczekujące opinie:</h4>';
+        html += '<ul style="list-style: none; padding: 0; margin-bottom: 1rem;">';
+        pendingReviews.forEach(r => {
+            const attr = attractions.find(a => a.id === r.attractionId);
+            const attrName = attr ? attr.name : 'Atrakcja';
+            html += `
+                <li style="padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color);">
+                    <span><strong>${r.user}</strong> o <em>${attrName}</em>: "${r.text}" (⭐${r.rating})</span>
+                    <div>
+                        <button onclick="approveReview(${r.id})" class="btn btn-primary btn-sm">Akceptuj</button>
+                        <button onclick="rejectReview(${r.id})" class="btn btn-btn-delete btn-sm" style="margin-left: 0.5rem;">Odrzuć</button>
+                    </div>
+                </li>
+            `;
+        });
+        html += '</ul>';
+    }
+    
+    html += '<button id="admin-approve-all" class="btn btn-secondary">Akceptuj wszystko</button>';
     listContainer.innerHTML = html;
 
     document.getElementById('admin-approve-all').addEventListener('click', () => {
         attractions.forEach(a => a.isApproved = true);
+        reviews.forEach(r => r.isApproved = true);
         updateAllData();
     });
 }
@@ -472,6 +493,41 @@ window.approveAttraction = function(id) {
 window.rejectAttraction = function(id) {
     attractions = attractions.filter(a => a.id !== id);
     updateAllData();
+};
+
+window.approveReview = function(id) {
+    const rev = reviews.find(r => r.id === id);
+    if (rev) rev.isApproved = true;
+    updateAllData();
+};
+
+window.rejectReview = function(id) {
+    reviews = reviews.filter(r => r.id !== id);
+    updateAllData();
+};
+
+window.openReviewModal = function(attractionId) {
+    const text = prompt("Napisz swoją opinię o tej atrakcji:");
+    if (!text) return;
+    const ratingStr = prompt("Oceń atrakcję w skali od 1 do 5:");
+    const rating = parseFloat(ratingStr);
+
+    if (isNaN(rating) || rating < 1 || rating > 5) {
+        alert("Ocena musi być liczbą od 1 do 5!");
+        return;
+    }
+
+    reviews.push({
+        id: Date.now(),
+        attractionId: attractionId,
+        user: currentUser,
+        text: text.trim(),
+        rating: rating,
+        isApproved: false
+    });
+
+    saveToStorage();
+    alert("Twoja opinia została dodana i oczekuje na zatwierdzenie przez administratora.");
 };
 
 window.deleteAttractionFromBase = function(id) {
