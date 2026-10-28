@@ -1,19 +1,19 @@
 const defaultAttractions = [
-    { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6, isApproved: true },
-    { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, isApproved: true },
-    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7, isApproved: true },
-    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7, isApproved: true },
-    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9, isApproved: true },
-    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7, isApproved: true },
-    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5, isApproved: true },
-    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8, isApproved: true },
-    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8, isApproved: true },
-    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7, isApproved: true },
-    { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "Rozrywka", cost: 47.00, rating: 4.5, isApproved: true },
-    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7, isApproved: true },
-    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7, isApproved: true },
-    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6, isApproved: true },
-    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, isApproved: true }
+    { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
+    { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
+    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7, imageUrl: "https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg", isApproved: true },
+    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
+    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
+    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
+    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
+    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
+    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8, imageUrl: "https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg", isApproved: true },
+    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
+    { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "Rozrywka", cost: 47.00, rating: 4.5, imageUrl: "https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg", isApproved: true },
+    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
+    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
+    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
+    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true }
 ];
 
 let attractions = JSON.parse(localStorage.getItem('podkarpacie_data')) || defaultAttractions;
@@ -187,17 +187,11 @@ function renderTable() {
         const inPlan = myPlan.some(p => p.id === item.id);
         const isAdmin = currentUser === 'admin';
 
-        const itemReviews = reviews.filter(r => r.attractionId === item.id && r.isApproved);
-        let reviewsHtml = itemReviews.length > 0 ? '<div style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">' : '';
-        itemReviews.forEach(r => {
-            reviewsHtml += `💬 <strong>${r.user}</strong>: "${r.text}" (⭐${r.rating})<br>`;
-        });
-        if (itemReviews.length > 0) reviewsHtml += '</div>';
-
         tr.innerHTML = `
             <td>
-                <strong>${item.name}</strong>
-                ${reviewsHtml}
+                <a href="#" onclick="openDetailsModal(${item.id}); return false;" style="color: var(--primary-color); font-weight: bold; text-decoration: none;">
+                    ${item.name} 🔍
+                </a>
             </td>
             <td>${item.city}</td>
             <td>${item.type}</td>
@@ -207,7 +201,6 @@ function renderTable() {
                 <button type="button" class="btn btn-secondary btn-sm" ${!currentUser ? 'disabled style="opacity:0.5" title="Zaloguj się"' : (inPlan ? 'disabled style="opacity:0.5"' : '')}>
                     ${inPlan ? 'Dodano ✓' : 'Dodaj do planu'}
                 </button>
-                ${currentUser ? `<button type="button" class="btn btn-secondary btn-sm" onclick="openReviewModal(${item.id})" style="margin-left: 5px;">Oceń</button>` : ''}
                 ${isAdmin ? `<button type="button" class="btn btn-btn-delete btn-sm" onclick="deleteAttractionFromBase(${item.id})" style="margin-left: 5px;">Usuń</button>` : ''}
             </td>
         `;
@@ -222,6 +215,55 @@ function renderTable() {
     document.querySelector('#prev-page').disabled = currentPage === 1;
     document.querySelector('#next-page').disabled = currentPage === totalPages || totalPages === 0;
 }
+
+// Modal Szczegółów ze zdjęciem z formularza i opiniami
+window.openDetailsModal = function(id) {
+    const item = attractions.find(a => a.id === id);
+    if (!item) return;
+
+    document.getElementById('det-name').textContent = item.name;
+    document.getElementById('det-location').textContent = `Lokalizacja: ${item.city} | Kategoria: ${item.type}`;
+    
+    const imgEl = document.getElementById('det-img');
+    imgEl.src = item.imageUrl || "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg";
+
+    document.getElementById('det-info').innerHTML = `
+        <strong>Koszt wstępu:</strong> ${item.cost === 0 ? 'Darmowe' : item.cost.toFixed(2) + ' PLN'}<br>
+        <strong>Średnia ocena:</strong> ⭐ ${item.rating.toFixed(1)}
+    `;
+
+    const itemReviews = reviews.filter(r => r.attractionId === item.id && r.isApproved);
+    const reviewsDiv = document.getElementById('det-reviews');
+    
+    if (itemReviews.length === 0) {
+        reviewsDiv.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 0.5rem;">Brak opinii dla tej atrakcji. Bądź pierwsza!</p>';
+    } else {
+        let revHtml = '';
+        itemReviews.forEach(r => {
+            revHtml += `<div style="border-bottom: 1px solid var(--border-color); padding: 4px 0; font-size: 0.85rem;">
+                <strong>${r.user}</strong> (⭐${r.rating}):<br><span>"${r.text}"</span>
+            </div>`;
+        });
+        reviewsDiv.innerHTML = revHtml;
+    }
+
+    const reviewBtn = document.getElementById('det-review-btn');
+    if (currentUser) {
+        reviewBtn.style.display = 'inline-block';
+        reviewBtn.onclick = () => {
+            closeDetailsModal();
+            openReviewModal(item.id);
+        };
+    } else {
+        reviewBtn.style.display = 'none';
+    }
+
+    document.getElementById('detailsModal').style.display = 'flex';
+};
+
+window.closeDetailsModal = function() {
+    document.getElementById('detailsModal').style.display = 'none';
+};
 
 function addToPlan(id) {
     if (!currentUser) { alert("Musisz być zalogowany, aby dodawać obiekty do planu!"); return; }
@@ -329,8 +371,9 @@ function handleAddForm(e) {
     const type = document.querySelector('#form-type').value;
     const cost = parseFloat(document.querySelector('#form-cost').value);
     const rating = parseFloat(document.querySelector('#form-rating').value);
+    const imageUrl = document.querySelector('#form-url').value.trim();
 
-    attractions.push({ id: Date.now(), name, city, type, cost, rating, isApproved: false });
+    attractions.push({ id: Date.now(), name, city, type, cost, rating, imageUrl, isApproved: false });
     saveToStorage();
 
     msgEl.textContent = "Atrakcja zgłoszona! Oczekuje na weryfikację przez administratora.";
