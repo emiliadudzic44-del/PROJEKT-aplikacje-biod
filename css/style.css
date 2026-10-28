@@ -21,7 +21,6 @@ body.dark-mode {
     --table-hover: #334155;
 }
 
-/* ustawienia podstawowe */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -53,7 +52,6 @@ input, textarea, select {
     border: 1px solid var(--border-color) !important;
 }
 
-/* nawigacja główna */
 .navbar {
     background-color: var(--nav-bg);
     border-bottom: 1px solid var(--border-color);
@@ -109,7 +107,6 @@ input, textarea, select {
     background-color: var(--table-hover);
 }
 
-/* kontener główny i sekcje */
 .container {
     max-width: 1100px;
     margin: 1.5rem auto;
@@ -136,7 +133,6 @@ input, textarea, select {
     margin-bottom: 1.25rem;
 }
 
-/* nagłówki i galeria */
 .hero-box {
     display: flex;
     flex-direction: column;
@@ -188,7 +184,6 @@ input, textarea, select {
     font-weight: 500;
 }
 
-/* kafelki skrótów */
 .nav-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -223,7 +218,6 @@ input, textarea, select {
     line-height: 1.4;
 }
 
-/* filtry i tabela */
 .filters {
     display: flex;
     gap: 0.75rem;
@@ -260,7 +254,6 @@ th, td {
     border-bottom: 1px solid var(--border-color);
     text-align: left;
     font-size: 0.9rem;
-    white-space: nowrap;
 }
 
 th {
@@ -271,7 +264,6 @@ th {
 
 tbody tr:hover { background-color: var(--table-hover); }
 
-/* planer i dashboard */
 .planner {
     padding: 1.25rem;
     border-radius: 10px;
@@ -314,7 +306,6 @@ tbody tr:hover { background-color: var(--table-hover); }
     margin-top: 0.2rem;
 }
 
-/* formularz */
 fieldset {
     border: 1px solid var(--border-color);
     padding: 1.25rem;
@@ -353,7 +344,6 @@ input, select {
 
 .checkbox-box input { width: auto; }
 
-/* przyciski i stopka */
 .btn {
     padding: 0.65rem 1.1rem;
     border-radius: 6px;
@@ -377,7 +367,6 @@ input, select {
 .message.success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
 .hidden { display: none; }
 
-/* Modal zdjęcia */
 .image-modal {
     display: none;
     position: fixed;
