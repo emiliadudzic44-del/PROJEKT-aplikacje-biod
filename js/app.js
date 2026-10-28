@@ -189,9 +189,9 @@ function renderTable() {
 
         tr.innerHTML = `
             <td>
-                <a href="#" onclick="openDetailsModal(${item.id}); return false;" style="color: var(--primary-color); font-weight: bold; text-decoration: none;">
+                <button type="button" onclick="openDetailsModal(${item.id})" style="background: none; border: none; color: var(--primary-color); font-weight: bold; text-decoration: underline; padding: 0; font-size: 0.9rem; text-align: left;">
                     ${item.name} 🔍
-                </a>
+                </button>
             </td>
             <td>${item.city}</td>
             <td>${item.type}</td>
@@ -216,7 +216,7 @@ function renderTable() {
     document.querySelector('#next-page').disabled = currentPage === totalPages || totalPages === 0;
 }
 
-// Modal Szczegółów ze zdjęciem z formularza i opiniami
+// Modal Szczegółów
 window.openDetailsModal = function(id) {
     const item = attractions.find(a => a.id === id);
     if (!item) return;
