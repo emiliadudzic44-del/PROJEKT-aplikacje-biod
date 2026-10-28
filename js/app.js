@@ -1,4 +1,3 @@
-// Domyślna baza
 const defaultAttractions = [
     { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6, isApproved: true },
     { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, isApproved: true },
@@ -18,37 +17,63 @@ const defaultAttractions = [
 ];
 
 let attractions = JSON.parse(localStorage.getItem('podkarpacie_data')) || defaultAttractions;
-let myPlan = [];
+let users = JSON.parse(localStorage.getItem('podkarpacie_users')) || [{ username: 'admin', password: 'admin123' }];
+let currentUser = localStorage.getItem('podkarpacie_current_user') || null;
+
+// Prywatny plan użytkownika
+let myPlan = currentUser ? (JSON.parse(localStorage.getItem(`plan_${currentUser}`)) || []) : [];
+
 let chartInstance = null;
 let expectedCaptchaResult = 0;
 
+// Zmienne do paginacji (stronicowania tabeli)
+let currentPage = 1;
+const rowsPerPage = 5; // 5 obiektów na stronę
+
 function saveToStorage() {
     localStorage.setItem('podkarpacie_data', JSON.stringify(attractions));
+    localStorage.setItem('podkarpacie_users', JSON.stringify(users));
+    if (currentUser) {
+        localStorage.setItem(`plan_${currentUser}`, JSON.stringify(myPlan));
+        localStorage.setItem('podkarpacie_current_user', currentUser);
+    } else {
+        localStorage.removeItem('podkarpacie_current_user');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
     setupThemeToggle();
     setupImageModal();
+    checkAuthSession();
     renderTable();
     renderPlan();
     updateDashboard();
     initChart();
     generateCaptcha();
 
-    // Eventy dla bazy i formularza
-    document.querySelector('#search-input').addEventListener('input', renderTable);
-    document.querySelector('#filter-type').addEventListener('change', renderTable);
-    document.querySelector('#sort-select').addEventListener('change', renderTable);
+    // Eventy formularzy i filtrów
+    document.querySelector('#search-input').addEventListener('input', () => { currentPage = 1; renderTable(); });
+    document.querySelector('#filter-type').addEventListener('change', () => { currentPage = 1; renderTable(); });
+    document.querySelector('#sort-select').addEventListener('change', () => { currentPage = 1; renderTable(); });
     document.querySelector('#add-form').addEventListener('submit', handleAddForm);
     
-    // Eventy dla panelu administratora
-    document.querySelector('#admin-login-btn').addEventListener('click', handleAdminLogin);
-    document.querySelector('#admin-logout-btn').addEventListener('click', handleAdminLogout);
+    // Eventy konta i autoryzacji
+    document.querySelector('#btn-login').addEventListener('click', handleLogin);
+    document.querySelector('#btn-register').addEventListener('click', handleRegister);
+    document.querySelector('#btn-logout').addEventListener('click', handleLogout);
     document.querySelector('#admin-show-pending').addEventListener('click', toggleAdminView);
+
+    // Przyciski paginacji
+    document.querySelector('#prev-page').addEventListener('click', () => {
+        if (currentPage > 1) { currentPage--; renderTable(); }
+    });
+    document.querySelector('#next-page').addEventListener('click', () => {
+        currentPage++; renderTable();
+    });
 });
 
-// System nawigacji i scrollowania
+// System nawigacji
 function setupNavigation() {
     const navLinks = document.querySelectorAll('.nav-btn');
     const scrollBtns = document.querySelectorAll('.scroll-btn');
@@ -102,11 +127,10 @@ function setupNavigation() {
     });
 }
 
-// Obsługa Trybu Ciemnego
+// Tryb ciemny
 function setupThemeToggle() {
     const btn = document.getElementById('theme-toggle');
     const isDark = localStorage.getItem('theme') === 'dark';
-    
     if (isDark) document.body.classList.add('dark-mode');
     
     btn.addEventListener('click', () => {
@@ -115,7 +139,7 @@ function setupThemeToggle() {
     });
 }
 
-// Obsługa powiększania zdjęć w galerii (Modal)
+// Modal zdjęć
 function setupImageModal() {
     const modal = document.getElementById('photoModal');
     const modalImg = document.getElementById('modalImg');
@@ -125,7 +149,6 @@ function setupImageModal() {
     figures.forEach(figure => {
         const img = figure.querySelector('img');
         const caption = figure.querySelector('figcaption');
-        
         img.style.cursor = 'pointer';
         img.addEventListener('click', () => {
             modal.style.display = 'flex';
@@ -134,12 +157,10 @@ function setupImageModal() {
         });
     });
 
-    modal.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
+    modal.addEventListener('click', () => { modal.style.display = 'none'; });
 }
 
-// Tabela główna (z przyciskiem usuwania dla administratora)
+// Tabela główna z Paginacją (Stronicowaniem)
 function renderTable() {
     const tbody = document.querySelector('#attractions-tbody');
     if (!tbody) return;
@@ -159,14 +180,20 @@ function renderTable() {
     if (sort === 'price-desc') list.sort((a, b) => b.cost - a.cost);
     if (sort === 'rating-desc') list.sort((a, b) => b.rating - a.rating);
 
+    // Paginacja - obliczanie stron
+    const totalPages = Math.ceil(list.length / rowsPerPage) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    const start = (currentPage - 1) * rowsPerPage;
+    const paginatedList = list.slice(start, start + rowsPerPage);
+
     tbody.innerHTML = '';
 
-    list.forEach(item => {
+    paginatedList.forEach(item => {
         const tr = document.createElement('tr');
         const inPlan = myPlan.some(p => p.id === item.id);
-
-        // TUTAJ JEST ZMIANA:
-        const isAdminLoggedIn = !document.querySelector('#admin-panel-section').classList.contains('hidden');
+        const isAdmin = currentUser === 'admin';
 
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
@@ -175,27 +202,35 @@ function renderTable() {
             <td>${item.cost === 0 ? 'Darmowe' : item.cost.toFixed(2) + ' PLN'}</td>
             <td>⭐ ${item.rating.toFixed(1)}</td>
             <td>
-                <button type="button" class="btn btn-secondary btn-sm" ${inPlan ? 'disabled style="opacity:0.5"' : ''}>
+                <button type="button" class="btn btn-secondary btn-sm" ${!currentUser ? 'disabled style="opacity:0.5" title="Zaloguj się, aby dodać do planu"' : (inPlan ? 'disabled style="opacity:0.5"' : '')}>
                     ${inPlan ? 'Dodano ✓' : 'Dodaj do planu'}
                 </button>
-                ${isAdminLoggedIn ? `<button type="button" class="btn btn-btn-delete btn-sm" onclick="deleteAttractionFromBase(${item.id})" style="margin-left: 5px;">Usuń</button>` : ''}
+                ${isAdmin ? `<button type="button" class="btn btn-btn-delete btn-sm" onclick="deleteAttractionFromBase(${item.id})" style="margin-left: 5px;">Usuń</button>` : ''}
             </td>
         `;
 
-        if (!inPlan) tr.querySelector('button').addEventListener('click', () => addToPlan(item.id));
+        if (currentUser && !inPlan) {
+            tr.querySelector('.btn-secondary').addEventListener('click', () => addToPlan(item.id));
+        }
         tbody.appendChild(tr);
     });
+
+    // Aktualizacja widoku informacji o stronie
+    document.querySelector('#page-info').textContent = `Strona ${currentPage} z ${totalPages}`;
+    document.querySelector('#prev-page').disabled = currentPage === 1;
+    document.querySelector('#next-page').disabled = currentPage === totalPages || totalPages === 0;
 }
 
-// Funkcje obsługi planu
+// Plan użytkownika
 function addToPlan(id) {
+    if (!currentUser) { alert("Musisz być zalogowany, aby dodawać obiekty do planu!"); return; }
     const item = attractions.find(a => a.id === id);
-    if (item) { myPlan.push(item); renderPlan(); renderTable(); }
+    if (item) { myPlan.push(item); saveToStorage(); renderPlan(); renderTable(); }
 }
 
 function removeFromPlan(id) {
     myPlan = myPlan.filter(p => p.id !== id);
-    renderPlan(); renderTable();
+    saveToStorage(); renderPlan(); renderTable();
 }
 
 function renderPlan() {
@@ -204,8 +239,10 @@ function renderPlan() {
     planTbody.innerHTML = '';
     let sum = 0;
 
-    if (myPlan.length === 0) {
-        planTbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Brak wybranych atrakcji.</td></tr>';
+    if (!currentUser) {
+        planTbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Zaloguj się w zakładce "Konto", aby zobaczyć swój plan wycieczki.</td></tr>';
+    } else if (myPlan.length === 0) {
+        planTbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Brak wybranych atrakcji w Twoim planie. Przejdź do zakładki "Dane", aby je dodać.</td></tr>';
     } else {
         myPlan.forEach(item => {
             sum += item.cost;
@@ -223,7 +260,7 @@ function renderPlan() {
     document.querySelector('#plan-total').textContent = `${sum.toFixed(2)} PLN`;
 }
 
-// Statystyki i Wykres
+// Dashboard i wykres
 function updateDashboard() {
     const approved = attractions.filter(a => a.isApproved);
     const total = approved.length;
@@ -264,7 +301,7 @@ function initChart() {
     });
 }
 
-// Losowanie Captcha
+// Captcha
 function generateCaptcha() {
     const num1 = Math.floor(Math.random() * 10) + 1;
     const num2 = Math.floor(Math.random() * 10) + 1;
@@ -273,7 +310,7 @@ function generateCaptcha() {
     if (questionEl) questionEl.textContent = `${num1} + ${num2}`;
 }
 
-// Obsługa formularza
+// Formularz zgłoszeniowy
 function handleAddForm(e) {
     e.preventDefault();
     const msgEl = document.querySelector('#form-message');
@@ -284,7 +321,6 @@ function handleAddForm(e) {
         msgEl.className = "message";
         msgEl.style = "background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;";
         msgEl.classList.remove('hidden');
-        
         generateCaptcha(); 
         document.querySelector('#form-captcha').value = ''; 
         return;
@@ -296,7 +332,6 @@ function handleAddForm(e) {
     const cost = parseFloat(document.querySelector('#form-cost').value);
     const rating = parseFloat(document.querySelector('#form-rating').value);
 
-    // Dodanie obiektu
     attractions.push({ id: Date.now(), name, city, type, cost, rating, isApproved: false });
     saveToStorage();
 
@@ -305,44 +340,98 @@ function handleAddForm(e) {
     msgEl.style = "";
     msgEl.classList.remove('hidden');
     document.querySelector('#add-form').reset();
-    
     generateCaptcha(); 
 }
 
-// --- Logika Administratora ---
+// --- Autoryzacja i Konta Użytkowników ---
 
-function handleAdminLogin() {
-    const login = document.querySelector('#admin-login').value.trim();
-    const pass = document.querySelector('#admin-pass').value.trim();
-    const errorEl = document.querySelector('#admin-error');
-    
-    if (login === 'admin' && pass === 'admin123') {
-        document.querySelector('#admin-login-section').classList.add('hidden');
-        document.querySelector('#admin-panel-section').classList.remove('hidden');
+function checkAuthSession() {
+    const authContainer = document.querySelector('#auth-container');
+    const userDashboard = document.querySelector('#user-dashboard');
+    const adminSubpanel = document.querySelector('#admin-subpanel');
+    const usernameSpan = document.querySelector('#current-username');
+
+    if (currentUser) {
+        authContainer.classList.add('hidden');
+        userDashboard.classList.remove('hidden');
+        usernameSpan.textContent = currentUser;
+
+        if (currentUser === 'admin') {
+            adminSubpanel.classList.remove('hidden');
+        } else {
+            adminSubpanel.classList.add('hidden');
+        }
+    } else {
+        authContainer.classList.remove('hidden');
+        userDashboard.classList.add('hidden');
+    }
+}
+
+function handleRegister() {
+    const user = document.querySelector('#reg-user').value.trim();
+    const pass = document.querySelector('#reg-pass').value.trim();
+    const msg = document.querySelector('#reg-message');
+
+    if (!user || !pass) {
+        msg.textContent = "Wypełnij login i hasło!";
+        msg.style = "background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;";
+        msg.classList.remove('hidden');
+        return;
+    }
+
+    if (users.some(u => u.username === user)) {
+        msg.textContent = "Taki użytkownik już istnieje!";
+        msg.style = "background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;";
+        msg.classList.remove('hidden');
+        return;
+    }
+
+    users.push({ username: user, password: pass });
+    saveToStorage();
+
+    msg.textContent = "Konto utworzone! Możesz się teraz zalogować.";
+    msg.style = "background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;";
+    msg.classList.remove('hidden');
+    document.querySelector('#reg-user').value = '';
+    document.querySelector('#reg-pass').value = '';
+}
+
+function handleLogin() {
+    const user = document.querySelector('#login-user').value.trim();
+    const pass = document.querySelector('#login-pass').value.trim();
+    const errorEl = document.querySelector('#login-error');
+
+    const found = users.find(u => u.username === user && u.password === pass);
+
+    if (found) {
+        currentUser = user;
+        myPlan = JSON.parse(localStorage.getItem(`plan_${currentUser}`)) || [];
+        saveToStorage();
+        checkAuthSession();
+        renderTable();
+        renderPlan();
         errorEl.classList.add('hidden');
-        
-        document.querySelector('#admin-login').value = '';
-        document.querySelector('#admin-pass').value = '';
-
-        renderTable(); 
+        document.querySelector('#login-user').value = '';
+        document.querySelector('#login-pass').value = '';
     } else {
         errorEl.textContent = 'Błędny login lub hasło!';
         errorEl.classList.remove('hidden');
     }
 }
 
-function handleAdminLogout() {
-    document.querySelector('#admin-login-section').classList.remove('hidden');
-    document.querySelector('#admin-panel-section').classList.add('hidden');
-    document.querySelector('#admin-pending-list').style.display = 'none';
-
-    renderTable(); 
+function handleLogout() {
+    currentUser = null;
+    myPlan = [];
+    localStorage.removeItem('podkarpacie_current_user');
+    checkAuthSession();
+    renderTable();
+    renderPlan();
 }
 
+// Moderacja Admina
 function toggleAdminView() {
     const pending = attractions.filter(a => !a.isApproved);
     const listContainer = document.querySelector('#admin-pending-list');
-    
     listContainer.style.display = 'block';
 
     if (pending.length === 0) {
@@ -374,35 +463,28 @@ function toggleAdminView() {
     });
 }
 
-// Funkcja akceptująca
 window.approveAttraction = function(id) {
     const item = attractions.find(a => a.id === id);
     if (item) item.isApproved = true;
     updateAllData();
 };
 
-// Funkcja odrzucająca (dla oczekujących)
 window.rejectAttraction = function(id) {
     attractions = attractions.filter(a => a.id !== id);
     updateAllData();
 };
 
-// Funkcja usuwająca już zatwierdzone z bazy
 window.deleteAttractionFromBase = function(id) {
     if (confirm("Czy na pewno chcesz trwale usunąć tę atrakcję z bazy?")) {
         attractions = attractions.filter(a => a.id !== id);
-        saveToStorage();
-        renderTable();
-        updateDashboard();
-        initChart();
+        updateAllData();
     }
 };
 
-// Aktualizacja całości + Zapis
 function updateAllData() {
     saveToStorage();
     renderTable();
     updateDashboard();
     initChart();
-    toggleAdminView(); 
+    if (currentUser === 'admin') toggleAdminView();
 }
