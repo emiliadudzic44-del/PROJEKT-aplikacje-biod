@@ -46,15 +46,15 @@
                 <div class="hero-gallery">
                     <figure>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg" alt="Zamek w Łańcucie">
-                        <figcaption>Zamek w Łańcucie</figcaption>
+                        <figcaption>Zamek w Łańcucie (kliknij, aby powiększyć)</figcaption>
                     </figure>
                     <figure>
                         <img src="https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg" alt="Bieszczady">
-                        <figcaption>Bieszczadzkie Szlaki</figcaption>
+                        <figcaption>Bieszczadzkie Szlaki (kliknij, aby powiększyć)</figcaption>
                     </figure>
                     <figure>
                         <img src="https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg" alt="Kolejka Leśna w Majdanie">
-                        <figcaption>Kolejka Leśna w Majdanie</figcaption>
+                        <figcaption>Kolejka Leśna w Majdanie (kliknij, aby powiększyć)</figcaption>
                     </figure>
                 </div>
             </section>
@@ -78,7 +78,7 @@
                 </div>
             </section>
 
-            <!-- sekcja dane z paginacją -->
+            <!-- sekcja dane -->
             <section id="dane" class="content-section">
                 <h2>Baza atrakcji turystycznych</h2>
                 <div class="filters">
@@ -101,7 +101,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Nazwa</th>
+                                <th>Nazwa i Opinie</th>
                                 <th>Miejscowość</th>
                                 <th>Kategoria</th>
                                 <th>Koszt</th>
@@ -113,7 +113,7 @@
                     </table>
                 </div>
 
-                <!-- Paginacja (przycisk stron) -->
+                <!-- Paginacja -->
                 <div id="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
                     <button id="prev-page" class="btn btn-secondary btn-sm">← Poprzednia</button>
                     <span id="page-info" style="font-weight: 600; font-size: 0.9rem;">Strona 1 z 1</span>
@@ -232,12 +232,11 @@
             </section>
         </div>
 
-        <!-- nowa zakładka konto i logowanie -->
+        <!-- zakładka konto -->
         <div id="konto" class="tab-content">
             <section class="content-section" style="margin-top: 0; border-top: none;">
                 <h2>Strefa Użytkownika i Panel Administratora</h2>
                 
-                <!-- Widok niezalogowanego (Logowanie + Rejestracja) -->
                 <div id="auth-container">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; flex-wrap: wrap;">
                         
@@ -259,7 +258,7 @@
                         <!-- Rejestracja -->
                         <div style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
                             <h3>Rejestracja nowego konta</h3>
-                            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;">Załóż darmowe konto, aby zapisywać swój plan wycieczek lokalnie.</p>
+                            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;">Załóż darmowe konto, aby zapisywać swój plan wycieczek.</p>
                             
                             <label>Nowy Login:</label>
                             <input type="text" id="reg-user" placeholder="Wybierz login" style="margin-bottom: 0.5rem;">
@@ -280,10 +279,10 @@
                     <p style="margin: 1rem 0; color: var(--text-muted);">Jesteś pomyślnie zalogowany do systemu.</p>
                     <button id="btn-logout" class="btn btn-secondary">Wyloguj się</button>
 
-                    <!-- Panel administracyjny widoczny tylko dla konta 'admin' -->
+                    <!-- Panel administracyjny -->
                     <div id="admin-subpanel" class="hidden" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-                        <h3 style="color: #166534;">Panel Administratora (Moderacja zgłoszeń)</h3>
-                        <p style="margin-bottom: 1rem; color: var(--text-muted);">Zarządzaj obiektami zgłoszonymi przez użytkowników za pomocą formularza.</p>
+                        <h3 style="color: #166534;">Panel Administratora (Moderacja zgłoszeń i opinii)</h3>
+                        <p style="margin-bottom: 1rem; color: var(--text-muted);">Zarządzaj nowymi obiektami oraz nadesłanymi opiniami użytkowników.</p>
                         <button id="admin-show-pending" class="btn btn-primary">Pokaż oczekujące na akceptację</button>
                         <div id="admin-pending-list" style="margin-top: 1.5rem; display: none;"></div>
                     </div>
@@ -303,7 +302,7 @@
 
     </main>
 
-    <!-- Modal do powiększania zdjęć w galerii -->
+    <!-- Modal do powiększania zdjęć -->
     <div id="photoModal" class="image-modal">
         <img id="modalImg" src="" alt="Powiększone zdjęcie">
         <span id="modalCaption"></span>
