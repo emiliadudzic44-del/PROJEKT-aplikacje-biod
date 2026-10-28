@@ -19,6 +19,7 @@
                 <li><a href="#analiza" class="nav-btn" data-target="start" data-scroll="analiza">Analiza</a></li>
                 <li><a href="#plan" class="nav-btn" data-target="plan">Twój Plan</a></li>
                 <li><a href="#formularz" class="nav-btn" data-target="formularz">Formularz</a></li>
+                <li><a href="#konto" class="nav-btn" data-target="konto">Konto</a></li>
                 <li><a href="#autorzy" class="nav-btn" data-target="autorzy">O autorach</a></li>
             </ul>
         </nav>
@@ -41,19 +42,19 @@
                     </div>
                 </div>
 
-                <!-- zdjęcia widoków (interaktywne z powiększaniem) -->
+                <!-- zdjęcia widoków -->
                 <div class="hero-gallery">
                     <figure>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg" alt="Zamek w Łańcucie">
-                        <figcaption>Zamek w Łańcucie (kliknij, aby powiększyć)</figcaption>
+                        <figcaption>Zamek w Łańcucie</figcaption>
                     </figure>
                     <figure>
                         <img src="https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg" alt="Bieszczady">
-                        <figcaption>Bieszczadzkie Szlaki (kliknij, aby powiększyć)</figcaption>
+                        <figcaption>Bieszczadzkie Szlaki</figcaption>
                     </figure>
                     <figure>
                         <img src="https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg" alt="Kolejka Leśna w Majdanie">
-                        <figcaption>Kolejka Leśna w Majdanie (kliknij, aby powiększyć)</figcaption>
+                        <figcaption>Kolejka Leśna w Majdanie</figcaption>
                     </figure>
                 </div>
             </section>
@@ -77,7 +78,7 @@
                 </div>
             </section>
 
-            <!-- sekcja dane -->
+            <!-- sekcja dane z paginacją -->
             <section id="dane" class="content-section">
                 <h2>Baza atrakcji turystycznych</h2>
                 <div class="filters">
@@ -111,6 +112,13 @@
                         <tbody id="attractions-tbody"></tbody>
                     </table>
                 </div>
+
+                <!-- Paginacja (przycisk stron) -->
+                <div id="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1rem;">
+                    <button id="prev-page" class="btn btn-secondary btn-sm">← Poprzednia</button>
+                    <span id="page-info" style="font-weight: 600; font-size: 0.9rem;">Strona 1 z 1</span>
+                    <button id="next-page" class="btn btn-secondary btn-sm">Następna →</button>
+                </div>
             </section>
 
             <!-- sekcja analiza -->
@@ -141,11 +149,11 @@
 
         </div>
 
-        <!-- osobna zakładka twój plan -->
+        <!-- zakładka twój plan -->
         <div id="plan" class="tab-content">
             <section class="content-section" style="margin-top: 0; border-top: none;">
                 <h2>Twój Plan wycieczki jednodniowej</h2>
-                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Lista obiektów dodanych z Bazy Atrakcji wraz z wyliczonym łącznym budżetem.</p>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Lista obiektów przypisana do Twojego konta wraz z wyliczonym łącznym budżetem.</p>
                 <div class="planner">
                     <div class="table-container">
                         <table>
@@ -167,7 +175,7 @@
             </section>
         </div>
 
-        <!-- osobna zakładka formularz -->
+        <!-- zakładka formularz -->
         <div id="formularz" class="tab-content">
             <section class="content-section" style="margin-top: 0; border-top: none;">
                 <h2>Formularz zgłaszania atrakcji</h2>
@@ -224,40 +232,72 @@
             </section>
         </div>
 
-        <!-- osobna zakładka o autorach -->
-        <div id="autorzy" class="tab-content">
+        <!-- nowa zakładka konto i logowanie -->
+        <div id="konto" class="tab-content">
             <section class="content-section" style="margin-top: 0; border-top: none;">
-                <h2>O autorach i projekcie</h2>
-                <p>Projekt z przedmiotu Aplikacje Internetowe prezentujący bazę atrakcji turystycznych na Podkarpaciu.</p>
-                <p><strong>Autorzy:</strong> Lena Czachara, Emilia Dudzic</p>
+                <h2>Strefa Użytkownika i Panel Administratora</h2>
                 
-                <!-- Panel Logowania / Administracji -->
-                <div style="margin-top: 2.5rem; padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
-                    <h3>Panel Administratora</h3>
-                    
-                    <!-- Widok logowania -->
-                    <div id="admin-login-section">
-                        <p style="margin-bottom: 1rem; color: var(--text-muted);">Zaloguj się, aby zarządzać obiektami.</p>
+                <!-- Widok niezalogowanego (Logowanie + Rejestracja) -->
+                <div id="auth-container">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; flex-wrap: wrap;">
                         
-                        <input type="text" id="admin-login" placeholder="Login" style="margin-bottom: 0.5rem; width: 100%; max-width: 300px; display: block;">
-                        <input type="password" id="admin-pass" placeholder="Hasło" style="margin-bottom: 1rem; width: 100%; max-width: 300px; display: block;">
-                        
-                        <button id="admin-login-btn" class="btn btn-primary">Zaloguj</button>
-                        <div id="admin-error" class="message hidden" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; max-width: 300px; margin-top: 0.5rem;"></div>
+                        <!-- Logowanie -->
+                        <div style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
+                            <h3>Logowanie</h3>
+                            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;">Zaloguj się na swoje konto lub użyj konta administratora (`admin` / `admin123`).</p>
+                            
+                            <label>Login:</label>
+                            <input type="text" id="login-user" placeholder="Twój login" style="margin-bottom: 0.5rem;">
+                            
+                            <label>Hasło:</label>
+                            <input type="password" id="login-pass" placeholder="Hasło" style="margin-bottom: 1rem;">
+                            
+                            <button id="btn-login" class="btn btn-primary">Zaloguj się</button>
+                            <div id="login-error" class="message hidden" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; margin-top: 0.5rem;"></div>
+                        </div>
+
+                        <!-- Rejestracja -->
+                        <div style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
+                            <h3>Rejestracja nowego konta</h3>
+                            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;">Załóż darmowe konto, aby zapisywać swój plan wycieczek lokalnie.</p>
+                            
+                            <label>Nowy Login:</label>
+                            <input type="text" id="reg-user" placeholder="Wybierz login" style="margin-bottom: 0.5rem;">
+                            
+                            <label>Nowe Hasło:</label>
+                            <input type="password" id="reg-pass" placeholder="Wybierz hasło" style="margin-bottom: 1rem;">
+                            
+                            <button id="btn-register" class="btn btn-secondary">Zarejestruj się</button>
+                            <div id="reg-message" class="message hidden" style="margin-top: 0.5rem;"></div>
+                        </div>
+
                     </div>
+                </div>
 
-                    <!-- Ukryty właściwy panel (pojawia się po zalogowaniu) -->
-                    <div id="admin-panel-section" class="hidden">
-                        <p style="margin-bottom: 1rem; color: #166534; font-weight: bold;">Zalogowano pomyślnie jako Administrator.</p>
+                <!-- Widok po zalogowaniu -->
+                <div id="user-dashboard" class="hidden" style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
+                    <h3>Witaj, <span id="current-username" style="color: var(--primary-color);"></span>!</h3>
+                    <p style="margin: 1rem 0; color: var(--text-muted);">Jesteś pomyślnie zalogowany do systemu.</p>
+                    <button id="btn-logout" class="btn btn-secondary">Wyloguj się</button>
+
+                    <!-- Panel administracyjny widoczny tylko dla konta 'admin' -->
+                    <div id="admin-subpanel" class="hidden" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                        <h3 style="color: #166534;">Panel Administratora (Moderacja zgłoszeń)</h3>
                         <p style="margin-bottom: 1rem; color: var(--text-muted);">Zarządzaj obiektami zgłoszonymi przez użytkowników za pomocą formularza.</p>
-                        
                         <button id="admin-show-pending" class="btn btn-primary">Pokaż oczekujące na akceptację</button>
-                        <button id="admin-logout-btn" class="btn btn-secondary" style="margin-left: 0.5rem;">Wyloguj</button>
-
                         <div id="admin-pending-list" style="margin-top: 1.5rem; display: none;"></div>
                     </div>
                 </div>
 
+            </section>
+        </div>
+
+        <!-- zakładka o autorach -->
+        <div id="autorzy" class="tab-content">
+            <section class="content-section" style="margin-top: 0; border-top: none;">
+                <h2>O autorach i projekcie</h2>
+                <p>Projekt z przedmiotu Aplikacje Internetowe prezentujący bazę atrakcji turystycznych na Podkarpaciu.</p>
+                <p><strong>Autorzy:</strong> [Wpiszcie swoje imiona i nazwiska]</p>
             </section>
         </div>
 
