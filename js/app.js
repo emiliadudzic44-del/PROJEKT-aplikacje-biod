@@ -1,19 +1,19 @@
 const defaultAttractions = [
     { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
-    { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
-    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/2/25/Zapora_w_Solinie_2020.jpg", isApproved: true },
-    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Skansen_Sanok.jpg/1280px-Skansen_Sanok.jpg", isApproved: true },
-    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Bieszczadzki_Park_Narodowy_-_Tarnica.jpg/1280px-Bieszczadzki_Park_Narodowy_-_Tarnica.jpg", isApproved: true },
-    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7, imageUrl: "https://rzeszowskiepiwnice.pl/sites/default/files/styles/og_image/public/2021-12/rp_0.jpg", isApproved: true },
-    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Baranow_Sandomierski_Zamek.jpg/1280px-Baranow_Sandomierski_Zamek.jpg", isApproved: true },
-    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Rezerwat_Przadki_1.jpg/1280px-Rezerwat_Przadki_1.jpg", isApproved: true },
-    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8, imageUrl: "https://solina.pkl.pl/files/og-solina.jpg", isApproved: true },
-    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arboretum_Bolestraszyce_01.jpg/1280px-Arboretum_Bolestraszyce_01.jpg", isApproved: true },
-    { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "Rozrywka", cost: 47.00, rating: 4.5, imageUrl: "https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg", isApproved: true },
-    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7, imageUrl: "https://miastozszkla.pl/wp-content/uploads/2021/04/cds-budynek.jpg", isApproved: true },
-    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Zagorze_ruiny_klasztoru.jpg/1280px-Zagorze_ruiny_klasztoru.jpg", isApproved: true },
-    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Turzansk_cerkiew_2011.jpg/1280px-Turzansk_cerkiew_2011.jpg", isApproved: true },
-    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Wodospad_w_Iwli.jpg/1280px-Wodospad_w_Iwli.jpg", isApproved: true }
+    { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVboxNYZrJmc4Rn_R9SMOcdzoMf5g3cJLwFOKRH-jKqg&s=10", isApproved: true },
+    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7, imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOggROXRfudXxfDQhCrcoMCZOWhADhkkkZEZuZrOmy9aJNF-R0twsD4g0&s=10", isApproved: true },
+    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Pog%C3%B3rze_zach._skansen_Sanok.jpg?utm_source=pl.wikipedia.org&utm_campaign=index&utm_content=original", isApproved: true },
+    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://bdpn.gov.pl/uploads/thumbs/66ad4f678412f466910203.webp", isApproved: true },
+    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7, imageUrl: "https://cdn.podroze.onet.pl/1/0Kxk9lBaHR0cHM6Ly9vY2RuLmV1L3B1bHNjbXMvTURBXy83ZmZmMjQ1YjNjMmVhMDQzMTNkMzI2ZGQ2MTlmNjcwNy5qcGeSlQMAGc0DIM0BwpMFzQlgzQTs3gACoTAHoTEE", isApproved: true },
+    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5, imageUrl: "https://r.profitroom.com/zamekwbaranowiesandomierskim/images/202502181000170.ogr_d_4ang.jpg", isApproved: true },
+    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/3/32/Przadki_6.jpg?utm_source=pl.wikipedia.org&utm_campaign=index&utm_content=original", isApproved: true },
+    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8, imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-8nPpObzxOD_L-QSjDcZXYjl9Rdc-etBHeduKS2q6QE2wWQXdl74qeJim&s=10", isApproved: true },
+    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7, imageUrl: "https://mynaszlaku.pl/wp-content/uploads/2021/07/arboretum-bol-wpis.jpg", isApproved: true },
+    { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "Rozrywka", cost: 47.00, rating: 4.5, imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTm_3ZMzkR_e5kgJiH1AeW2G8KP4tFWA02RfRAxLdnUstxWYEKLpN4FB-A&s=10", isApproved: true },
+    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7, imageUrl: "https://miastoszkla.pl/wp-content/uploads/2021/02/17_1533659834.jpg", isApproved: true },
+    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7, imageUrl: "https://bieszczader.pl/wp-content/uploads/2017/12/PC260162.jpg", isApproved: true },
+    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6, imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj47osxM-W33_Ilw1QiAs7Tx6nwfRQfP1ZFDfXDl83gw&s=10", isApproved: true },
+    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, imageUrl: "https://www.aktywniwpodrozy.pl/wp-content/uploads/2024/02/Wodospad-Iwla-aktywniwpodrozy-01-sm.jpg", isApproved: true }
 ];
 
 let attractions = JSON.parse(localStorage.getItem('podkarpacie_data')) || defaultAttractions;
@@ -21,9 +21,9 @@ let users = JSON.parse(localStorage.getItem('podkarpacie_users')) || [{ username
 let reviews = JSON.parse(localStorage.getItem('podkarpacie_reviews')) || [
     { id: 101, attractionId: 1, user: "JanKowalski", text: "Przepiękne miejsce, warte zobaczenia!", rating: 5, isApproved: true },
     { id: 102, attractionId: 1, user: "Anna_M", text: "Znakomity przewodnik i niesamowite wnętrza zamku.", rating: 5, isApproved: true },
-    { id: 103, attractionId: 2, user: "Piotr_B", text: "Widoki na szlaku zapierają dech w piersiach!", rating: 5, isApproved: true },
+    { id: 103, attractionId: 2, user: "Piotr_B", text: "Widoki na szlaku zapierają dech w piersiach", rating: 5, isApproved: true },
     { id: 104, attractionId: 3, user: "KatarzynaW", text: "Fajny spacer po koronie zapory, polecam wieczorem.", rating: 4, isApproved: true },
-    { id: 105, attractionId: 6, user: "Marek_Rz", text: "Bardzo interaktywne wystawy, super dla całej rodziny.", rating: 5, isApproved: true },
+    { id: 105, attractionId: 6, user: "Marek_Rz", text: "Interaktywne wystawy, super dla całej rodziny.", rating: 5, isApproved: true },
     { id: 106, attractionId: 9, user: "Tomasz_S", text: "Przejazd kolejką robi niesamowite wrażenie na dzieciach.", rating: 5, isApproved: true }
 ];
 let currentUser = localStorage.getItem('podkarpacie_current_user') || null;
