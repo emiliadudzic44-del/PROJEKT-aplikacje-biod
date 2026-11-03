@@ -402,6 +402,7 @@ function checkAuthSession() {
     const userDashboard = document.querySelector('#user-dashboard');
     const adminSubpanel = document.querySelector('#admin-subpanel');
     const userActivity = document.querySelector('#user-activity');
+    const userPlanBtn = document.querySelector('#btn-user-plan');
     const usernameSpan = document.querySelector('#current-username');
 
     if (currentUser) {
@@ -411,9 +412,11 @@ function checkAuthSession() {
 
         if (currentUser === 'admin') {
             if (userActivity) userActivity.classList.add('hidden');
+            if (userPlanBtn) userPlanBtn.classList.add('hidden');
             adminSubpanel.classList.remove('hidden');
         } else {
             if (userActivity) userActivity.classList.remove('hidden');
+            if (userPlanBtn) userPlanBtn.classList.remove('hidden');
             adminSubpanel.classList.add('hidden');
             renderUserActivity();
         }
