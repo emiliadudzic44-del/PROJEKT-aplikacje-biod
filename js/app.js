@@ -385,7 +385,7 @@ function handleAddForm(e) {
     const rating = parseFloat(document.querySelector('#form-rating').value);
     const imageUrl = document.querySelector('#form-url').value.trim();
 
-    attractions.push({ id: Date.now(), name, city, type, cost, rating, imageUrl, isApproved: false });
+    attractions.push({ id: Date.now(), name, city, type, cost, rating, imageUrl, isApproved: false, submittedBy: currentUser || 'Anonim' });
     saveToStorage();
 
     msgEl.textContent = "Atrakcja zgłoszona! Oczekuje na weryfikację przez administratora.";
@@ -406,6 +406,8 @@ function checkAuthSession() {
         authContainer.classList.add('hidden');
         userDashboard.classList.remove('hidden');
         usernameSpan.textContent = currentUser;
+
+        renderUserActivity();
 
         if (currentUser === 'admin') {
             adminSubpanel.classList.remove('hidden');
@@ -610,5 +612,52 @@ function updateAllData() {
     renderTable();
     updateDashboard();
     initChart();
+    renderUserActivity();
     if (currentUser === 'admin') toggleAdminView();
+}
+
+function renderUserActivity() {
+    if (!currentUser) return;
+
+    // renderowanie zgłoszonych atrakcji użytkownika
+    const userAttrDiv = document.querySelector('#user-submitted-attractions');
+    const myAttractions = attractions.filter(a => a.submittedBy === currentUser);
+
+    if (myAttractions.length === 0) {
+        userAttrDiv.innerHTML = '<p style="color: var(--text-muted);">Nie zgłoszono jeszcze żadnych atrakcji.</p>';
+    } else {
+        let html = '<ul style="list-style: none; padding: 0;">';
+        myAttractions.forEach(a => {
+            const status = a.isApproved 
+                ? '<span style="color: #166534; font-weight: bold;">[Zatwierdzona ✓]</span>' 
+                : '<span style="color: #b45309; font-weight: bold;">[Oczekuje na akceptację ⏳]</span>';
+            html += `<li style="padding: 4px 0; border-bottom: 1px solid var(--border-color);">
+                <strong>${a.name}</strong> (${a.city}) — ${status}
+            </li>`;
+        });
+        html += '</ul>';
+        userAttrDiv.innerHTML = html;
+    }
+
+    // renderowanie opinii dodanych przez użytkownika
+    const userRevDiv = document.querySelector('#user-submitted-reviews');
+    const myReviews = reviews.filter(r => r.user === currentUser);
+
+    if (myReviews.length === 0) {
+        userRevDiv.innerHTML = '<p style="color: var(--text-muted);">Nie napisano jeszcze żadnych opinii.</p>';
+    } else {
+        let html = '<ul style="list-style: none; padding: 0;">';
+        myReviews.forEach(r => {
+            const attr = attractions.find(a => a.id === r.attractionId);
+            const attrName = attr ? attr.name : 'Atrakcja';
+            const status = r.isApproved 
+                ? '<span style="color: #166534; font-weight: bold;">[Zatwierdzona ✓]</span>' 
+                : '<span style="color: #b45309; font-weight: bold;">[Oczekuje na akceptację ⏳]</span>';
+            html += `<li style="padding: 4px 0; border-bottom: 1px solid var(--border-color);">
+                <em>${attrName}</em>: "${r.text}" (⭐${r.rating}) — ${status}
+            </li>`;
+        });
+        html += '</ul>';
+        userRevDiv.innerHTML = html;
+    }
 }
