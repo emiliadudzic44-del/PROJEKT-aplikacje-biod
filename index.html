@@ -276,10 +276,37 @@
                 </div>
 
                 <div id="user-dashboard" class="hidden" style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
-                    <h3>Witaj, <span id="current-username" style="color: var(--primary-color);"></span>!</h3>
-                    <p style="margin: 1rem 0; color: var(--text-muted);">Jesteś pomyślnie zalogowany do systemu.</p>
-                    <button id="btn-logout" class="btn btn-secondary">Wyloguj się</button>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <h3>Witaj, <span id="current-username" style="color: var(--primary-color);"></span>!</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Jesteś pomyślnie zalogowany do systemu.</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary page-btn" data-target="plan">Przejdź do Twojego Planu 🗺️</button>
+                            <button id="btn-logout" class="btn btn-secondary">Wyloguj się</button>
+                        </div>
+                    </div>
 
+                    <!-- Podsumowanie aktywności użytkownika -->
+                    <div id="user-activity" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Twoja aktywność w serwisie:</h4>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; flex-wrap: wrap;">
+                            <!-- Zgłoszone atrakcje -->
+                            <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; background: var(--bg-color);">
+                                <h5 style="margin-bottom: 0.5rem; font-size: 0.95rem;">Zgłoszone atrakcje przez Ciebie:</h5>
+                                <div id="user-submitted-attractions" style="font-size: 0.85rem; max-height: 150px; overflow-y: auto;"></div>
+                            </div>
+
+                            <!-- Napisane opinie -->
+                            <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; background: var(--bg-color);">
+                                <h5 style="margin-bottom: 0.5rem; font-size: 0.95rem;">Opinie dodane przez Ciebie:</h5>
+                                <div id="user-submitted-reviews" style="font-size: 0.85rem; max-height: 150px; overflow-y: auto;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subpanel Administratora -->
                     <div id="admin-subpanel" class="hidden" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
                         <h3 style="color: #166534;">Panel Administratora (Moderacja zgłoszeń i opinii)</h3>
                         <p style="margin-bottom: 1rem; color: var(--text-muted);">Zarządzaj nowymi obiektami oraz nadesłanymi opiniami użytkowników.</p>
