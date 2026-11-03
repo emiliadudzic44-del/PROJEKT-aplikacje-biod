@@ -240,14 +240,20 @@
                         
                         <div style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--card-bg);">
                             <h3>Logowanie</h3>
-                            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;">Zaloguj się na swoje konto lub użyj konta administratora (`admin` / `admin123`).</p>
+                            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;">Zaloguj się na swoje konto użytkownika lub konto administratora.</p>
                             
                             <label>Login:</label>
                             <input type="text" id="login-user" placeholder="Twój login" style="margin-bottom: 0.5rem;">
                             
                             <label>Hasło:</label>
-                            <input type="password" id="login-pass" placeholder="Hasło" style="margin-bottom: 1rem;">
+                            <input type="password" id="login-pass" placeholder="Hasło" style="margin-bottom: 0.5rem;">
                             
+                            <label for="login-captcha">Weryfikacja:</label>
+                            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 1rem; margin-top: 0.25rem;">
+                                <span style="font-size: 0.85rem;">Ile to jest <strong id="login-captcha-question"></strong>?</span>
+                                <input type="number" id="login-captcha" style="width: 90px; margin-top: 0;" placeholder="Wynik">
+                            </div>
+
                             <button id="btn-login" class="btn btn-primary">Zaloguj się</button>
                             <div id="login-error" class="message hidden" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; margin-top: 0.5rem;"></div>
                         </div>
@@ -290,7 +296,7 @@
             <section class="content-section" style="margin-top: 0; border-top: none;">
                 <h2>O autorach i projekcie</h2>
                 <p>Projekt z przedmiotu Aplikacje Internetowe prezentujący bazę atrakcji turystycznych na Podkarpaciu.</p>
-                <p><strong>Autorzy:</strong> [Wpiszcie swoje imiona i nazwiska]</p>
+                <p style="margin-top: 1rem;"><strong>Autorzy:</strong> Lena Czachara i Emilia Dudzic</p>
             </section>
         </div>
 
@@ -303,7 +309,7 @@
         <p style="color: #cbd5e1; font-size: 0.85rem; margin-top: 0.5rem;">(Kliknij dowolne miejsce, aby zamknąć)</p>
     </div>
 
-    <!-- Modal szczegółów atrakcji (z uwzględnieniem zdjęcia z formularza) -->
+    <!-- Modal szczegółów atrakcji -->
     <div id="detailsModal" class="image-modal">
         <div style="background: var(--card-bg); color: var(--text-color); padding: 1.5rem; border-radius: 10px; max-width: 500px; width: 90%; border: 1px solid var(--border-color); position: relative; max-height: 90vh; overflow-y: auto;">
             <img id="det-img" src="" alt="Zdjęcie atrakcji" style="width: 100%; height: 200px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem;">
