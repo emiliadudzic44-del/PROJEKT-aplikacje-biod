@@ -196,7 +196,7 @@ function renderTable() {
         tr.innerHTML = `
             <td>
                 <button type="button" onclick="openDetailsModal(${item.id})" style="background: none; border: none; color: var(--primary-color); font-weight: bold; text-decoration: underline; padding: 0; font-size: 0.9rem; text-align: left;">
-                    ${item.name} 🔍
+                    ${item.name}
                 </button>
             </td>
             <td>${item.city}</td>
