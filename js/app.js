@@ -246,8 +246,9 @@ window.openDetailsModal = function(id) {
     } else {
         let revHtml = '';
         itemReviews.forEach(r => {
-            revHtml += `<div style="border-bottom: 1px solid var(--border-color); padding: 4px 0; font-size: 0.85rem;">
-                <strong>${r.user}</strong> (⭐${r.rating}):<br><span>"${r.text}"</span>
+            revHtml += `<div style="border-bottom: 1px solid var(--border-color); padding: 6px 0; font-size: 0.85rem; color: var(--text-color);">
+                <strong style="color: var(--primary-color);">${r.user}</strong> (⭐ ${r.rating}):<br>
+                <span style="color: var(--text-color); font-style: italic;">"${r.text}"</span>
             </div>`;
         });
         reviewsDiv.innerHTML = revHtml;
