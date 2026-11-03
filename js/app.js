@@ -1,31 +1,37 @@
 const defaultAttractions = [
     { id: 1, name: "Zamek w Łańcucie", city: "Łańcut", type: "Zabytek", cost: 46.00, rating: 4.6, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
     { id: 2, name: "Połonina Wetlińska", city: "Cisna", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
-    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7, imageUrl: "https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg", isApproved: true },
-    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
-    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
-    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
-    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
-    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
-    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8, imageUrl: "https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg", isApproved: true },
-    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
+    { id: 3, name: "Zapora Solina", city: "Solina", type: "Rozrywka", cost: 0.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/2/25/Zapora_w_Solinie_2020.jpg", isApproved: true },
+    { id: 4, name: "Muzeum Budownictwa Ludowego w Sanoku", city: "Sanok", type: "Zabytek", cost: 32.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Skansen_Sanok.jpg/1280px-Skansen_Sanok.jpg", isApproved: true },
+    { id: 5, name: "Bieszczadzki Park Narodowy", city: "Ustrzyki Górne", type: "Natura", cost: 11.00, rating: 4.9, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Bieszczadzki_Park_Narodowy_-_Tarnica.jpg/1280px-Bieszczadzki_Park_Narodowy_-_Tarnica.jpg", isApproved: true },
+    { id: 6, name: "Rzeszowskie Piwnice", city: "Rzeszów", type: "Zabytek", cost: 25.00, rating: 4.7, imageUrl: "https://rzeszowskiepiwnice.pl/sites/default/files/styles/og_image/public/2021-12/rp_0.jpg", isApproved: true },
+    { id: 7, name: "Zamek Baranów Sandomierski", city: "Baranów Sandomierski", type: "Zabytek", cost: 32.00, rating: 4.5, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Baranow_Sandomierski_Zamek.jpg/1280px-Baranow_Sandomierski_Zamek.jpg", isApproved: true },
+    { id: 8, name: "Rezerwat Prządki", city: "Korczyna", type: "Natura", cost: 0.00, rating: 4.8, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Rezerwat_Przadki_1.jpg/1280px-Rezerwat_Przadki_1.jpg", isApproved: true },
+    { id: 9, name: "Kolej Gondolowa w Solinie", city: "Solina", type: "Rozrywka", cost: 49.00, rating: 4.8, imageUrl: "https://solina.pkl.pl/files/og-solina.jpg", isApproved: true },
+    { id: 10, name: "Arboretum Bolestraszyce", city: "Bolestraszyce", type: "Natura", cost: 27.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arboretum_Bolestraszyce_01.jpg/1280px-Arboretum_Bolestraszyce_01.jpg", isApproved: true },
     { id: 11, name: "Bieszczadzka Kolejka Leśna", city: "Majdan", type: "Rozrywka", cost: 47.00, rating: 4.5, imageUrl: "https://zwiedzajzfunduszami.podkarpackie.pl/data/domains/1/m_objects_map/36/images/39-bieszczadzka-kolejka-lesna-w-majdanie-008.jpg", isApproved: true },
-    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
-    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/Zamek_-_Lancut.jpg", isApproved: true },
-    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true },
-    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, imageUrl: "https://s.eurozet.pl/cbz/2025/12/11/e8988286/43146-1920x1080-2abe966b76.jpg", isApproved: true }
+    { id: 12, name: "Centrum Dziedzictwa Szkła w Krośnie", city: "Krosno", type: "Rozrywka", cost: 33.00, rating: 4.7, imageUrl: "https://miastozszkla.pl/wp-content/uploads/2021/04/cds-budynek.jpg", isApproved: true },
+    { id: 13, name: "Klasztor Zagórz", city: "Zagórz", type: "Zabytek", cost: 20.00, rating: 4.7, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Zagorze_ruiny_klasztoru.jpg/1280px-Zagorze_ruiny_klasztoru.jpg", isApproved: true },
+    { id: 14, name: "Cerkiew pw. Michała Archanioła", city: "Turzańsk", type: "Zabytek", cost: 0.00, rating: 4.6, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Turzansk_cerkiew_2011.jpg/1280px-Turzansk_cerkiew_2011.jpg", isApproved: true },
+    { id: 15, name: "Wodospad w Iwli", city: "Iwla", type: "Natura", cost: 0.00, rating: 4.6, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Wodospad_w_Iwli.jpg/1280px-Wodospad_w_Iwli.jpg", isApproved: true }
 ];
 
 let attractions = JSON.parse(localStorage.getItem('podkarpacie_data')) || defaultAttractions;
 let users = JSON.parse(localStorage.getItem('podkarpacie_users')) || [{ username: 'admin', password: 'admin123' }];
 let reviews = JSON.parse(localStorage.getItem('podkarpacie_reviews')) || [
-    { id: 101, attractionId: 1, user: "JanKowalski", text: "Przepiękne miejsce, warte zobaczenia!", rating: 5, isApproved: true }
+    { id: 101, attractionId: 1, user: "JanKowalski", text: "Przepiękne miejsce, warte zobaczenia!", rating: 5, isApproved: true },
+    { id: 102, attractionId: 1, user: "Anna_M", text: "Znakomity przewodnik i niesamowite wnętrza zamku.", rating: 5, isApproved: true },
+    { id: 103, attractionId: 2, user: "Piotr_B", text: "Widoki na szlaku zapierają dech w piersiach!", rating: 5, isApproved: true },
+    { id: 104, attractionId: 3, user: "KatarzynaW", text: "Fajny spacer po koronie zapory, polecam wieczorem.", rating: 4, isApproved: true },
+    { id: 105, attractionId: 6, user: "Marek_Rz", text: "Bardzo interaktywne wystawy, super dla całej rodziny.", rating: 5, isApproved: true },
+    { id: 106, attractionId: 9, user: "Tomasz_S", text: "Przejazd kolejką robi niesamowite wrażenie na dzieciach.", rating: 5, isApproved: true }
 ];
 let currentUser = localStorage.getItem('podkarpacie_current_user') || null;
 let myPlan = currentUser ? (JSON.parse(localStorage.getItem(`plan_${currentUser}`)) || []) : [];
 
 let chartInstance = null;
-let expectedCaptchaResult = 0;
+let expectedFormCaptcha = 0;
+let expectedLoginCaptcha = 0;
 let currentPage = 1;
 const rowsPerPage = 5;
 
@@ -50,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPlan();
     updateDashboard();
     initChart();
-    generateCaptcha();
+    generateCaptchas();
 
     document.querySelector('#search-input').addEventListener('input', () => { currentPage = 1; renderTable(); });
     document.querySelector('#filter-type').addEventListener('change', () => { currentPage = 1; renderTable(); });
@@ -343,12 +349,18 @@ function initChart() {
     });
 }
 
-function generateCaptcha() {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    expectedCaptchaResult = num1 + num2;
-    const questionEl = document.querySelector('#captcha-question');
-    if (questionEl) questionEl.textContent = `${num1} + ${num2}`;
+function generateCaptchas() {
+    const n1 = Math.floor(Math.random() * 9) + 1;
+    const n2 = Math.floor(Math.random() * 9) + 1;
+    expectedFormCaptcha = n1 + n2;
+    const formQ = document.querySelector('#captcha-question');
+    if (formQ) formQ.textContent = `${n1} + ${n2}`;
+
+    const n3 = Math.floor(Math.random() * 9) + 1;
+    const n4 = Math.floor(Math.random() * 9) + 1;
+    expectedLoginCaptcha = n3 + n4;
+    const loginQ = document.querySelector('#login-captcha-question');
+    if (loginQ) loginQ.textContent = `${n3} + ${n4}`;
 }
 
 function handleAddForm(e) {
@@ -356,12 +368,12 @@ function handleAddForm(e) {
     const msgEl = document.querySelector('#form-message');
     
     const captcha = parseInt(document.querySelector('#form-captcha').value);
-    if (captcha !== expectedCaptchaResult) { 
+    if (captcha !== expectedFormCaptcha) { 
         msgEl.textContent = "Błąd weryfikacji. Zły wynik obliczeń.";
         msgEl.className = "message";
         msgEl.style = "background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;";
         msgEl.classList.remove('hidden');
-        generateCaptcha(); 
+        generateCaptchas(); 
         document.querySelector('#form-captcha').value = ''; 
         return;
     }
@@ -381,7 +393,7 @@ function handleAddForm(e) {
     msgEl.style = "";
     msgEl.classList.remove('hidden');
     document.querySelector('#add-form').reset();
-    generateCaptcha(); 
+    generateCaptchas(); 
 }
 
 function checkAuthSession() {
@@ -438,7 +450,16 @@ function handleRegister() {
 function handleLogin() {
     const user = document.querySelector('#login-user').value.trim();
     const pass = document.querySelector('#login-pass').value.trim();
+    const captchaVal = parseInt(document.querySelector('#login-captcha').value);
     const errorEl = document.querySelector('#login-error');
+
+    if (isNaN(captchaVal) || captchaVal !== expectedLoginCaptcha) {
+        errorEl.textContent = 'Błąd weryfikacji. Wpisz poprawny wynik działania!';
+        errorEl.classList.remove('hidden');
+        generateCaptchas();
+        document.querySelector('#login-captcha').value = '';
+        return;
+    }
 
     const found = users.find(u => u.username === user && u.password === pass);
 
@@ -452,9 +473,12 @@ function handleLogin() {
         errorEl.classList.add('hidden');
         document.querySelector('#login-user').value = '';
         document.querySelector('#login-pass').value = '';
+        document.querySelector('#login-captcha').value = '';
     } else {
         errorEl.textContent = 'Błędny login lub hasło!';
         errorEl.classList.remove('hidden');
+        generateCaptchas();
+        document.querySelector('#login-captcha').value = '';
     }
 }
 
@@ -465,6 +489,7 @@ function handleLogout() {
     checkAuthSession();
     renderTable();
     renderPlan();
+    generateCaptchas();
 }
 
 function toggleAdminView() {
